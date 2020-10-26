@@ -1,0 +1,24 @@
+Package: ggshapes
+Title: Add 3D-Lite Shapes To Ggplots
+Version: 0.0.0.9003
+Authors@R: 
+    person(given = "Thomas",
+           family = "Hart",
+           role = c("aut", "cre"),
+           email = "thh4002@med.cornell.edu")
+Description: A collection of geoms and shapes to add 3D-Lite shapes to ggplots. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: ggplot2 (>= 3.3.2), grid, devtools (>= 2.3.2), testthat (>=
+        2.3.2), usethis (>= 1.6.3), tidyr (>= 1.1.2), rlang (>= 0.4.8),
+        dplyr (>= 1.0.2), tibble (>= 3.0.4), magrittr (>= 1.5),
+        stringr, assertthat, purrr
+NeedsCompilation: no
+Packaged: 2020-10-26 18:54:28 UTC; ubuntu
+Author: Thomas Hart [aut, cre]
+Maintainer: Thomas Hart <thh4002@med.cornell.edu>
+URL: https://github.com/thmshrt/ggshapes
+BugReports: https://github.com/thmshrt/ggshapes/issues
