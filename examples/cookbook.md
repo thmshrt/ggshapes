@@ -1,65 +1,78 @@
----
-title: "Cookbook"
-output: github_document
-editor_options: 
-  chunk_output_type: console
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE,
-  warning = FALSE
-  )
-```
+Cookbook
+================
 
 ## Installation
 
-This package has been submitted to [CRAN](https://CRAN.R-project.org) and is
-expected to be available soon using:
+This package has been submitted to [CRAN](https://CRAN.R-project.org)
+and is expected to be available soon using:
 
-```r
+``` r
 install.packages("ggshapes")
 ```
 
 For now, the package can be installed using
-```r
+
+``` r
 devtools::install_github('thmshrt/ggshapes')
 ```
 
 <!-- ## Showcase -->
 
 <!-- ```{r logo} -->
-<!-- ggplot() + -->
-<!--   coord_equal() + -->
-<!--   scale_x_continuous(limits = c(-2,2)) + -->
-<!--   scale_y_continuous(limits = c(-2,2)) + -->
-<!--   #  -->
-<!--   geom_matrix( -->
-<!--     mapping = aes( -->
-<!--       xc = c( 1), -->
-<!--       yc = c(-1), -->
-<!--       lx = c( 2), -->
-<!--       ly = c( 2), -->
-<!--       lz = c( 1) -->
-<!--     ) -->
-<!--   ) -->
-<!-- ``` -->
 
+<!-- ggplot() + -->
+
+<!--   coord_equal() + -->
+
+<!--   scale_x_continuous(limits = c(-2,2)) + -->
+
+<!--   scale_y_continuous(limits = c(-2,2)) + -->
+
+<!--   #  -->
+
+<!--   geom_matrix( -->
+
+<!--     mapping = aes( -->
+
+<!--       xc = c( 1), -->
+
+<!--       yc = c(-1), -->
+
+<!--       lx = c( 2), -->
+
+<!--       ly = c( 2), -->
+
+<!--       lz = c( 1) -->
+
+<!--     ) -->
+
+<!--   ) -->
+
+<!-- ``` -->
 
 ## Drawing Matrices
 
 ### Single Matrix
-By default matrices are rotated
-- 70 degrees anticlockwise about the "x" axis
-- 20 degrees anticlockwise about the "y" axis
-- 0 degrees anticlockwise about the "z" axis
+
+By default matrices are rotated - 70 degrees anticlockwise about the “x”
+axis - 20 degrees anticlockwise about the “y” axis - 0 degrees
+anticlockwise about the “z” axis
 
 This provides a view of the `top`, `right`, `front` faces.
 
-```{r}
+``` r
 library(ggplot2)
 library(ggshapes)
+```
 
+    ## 
+    ## Attaching package: 'ggshapes'
+
+    ## The following object is masked from 'package:base':
+    ## 
+    ##     scale
+
+``` r
 ggplot() +
   coord_equal() +
   scale_x_continuous(limits = c(-2,2)) +
@@ -72,11 +85,13 @@ ggplot() +
     )
 ```
 
-Matrices may however be rotated using `degx`, `degy`, `degz` parameters. Here 
-we decrease the `degx` and `degy` axis rotation and leave `degz` to its 
-default `0`. 
+![](cookbook_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
-```{r}
+Matrices may however be rotated using `degx`, `degy`, `degz` parameters.
+Here we decrease the `degx` and `degy` axis rotation and leave `degz` to
+its default `0`.
+
+``` r
 library(ggplot2)
 library(ggshapes)
 
@@ -94,9 +109,13 @@ ggplot() +
     )
 ```
 
-We can also change the color of the matrix faces in the the normal way using
-`fill`. Matrix faces, however, cannot be independently coloured (just yet)!
-```{r}
+![](cookbook_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+We can also change the color of the matrix faces in the the normal way
+using `fill`. Matrix faces, however, cannot be independently coloured
+(just yet)\!
+
+``` r
 library(ggplot2)
 library(ggshapes)
 
@@ -115,13 +134,15 @@ ggplot() +
     )
 ```
 
-Label position can however be changed using `xpos`, `xlabel`, `ypos`, `ylabel`,
-`zpos`, `zlabel`. To understand the `pos` parameter, we need to view the axes
-with the `arrow` argument filled in. The pos values of `start`, `middle`, `end`,
-equate to positions along the arrow. `start` is the tail of the arrow, `end` in 
-the head of the arrow. 
+![](cookbook_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-```{r}
+Label position can however be changed using `xpos`, `xlabel`, `ypos`,
+`ylabel`, `zpos`, `zlabel`. To understand the `pos` parameter, we need
+to view the axes with the `arrow` argument filled in. The pos values of
+`start`, `middle`, `end`, equate to positions along the arrow. `start`
+is the tail of the arrow, `end` in the head of the arrow.
+
+``` r
 library(ggplot2)
 library(ggshapes)
 
@@ -146,11 +167,13 @@ ggplot() +
     )
 ```
 
-This permits us to construct very nice looking matrices with dimensions labeled.
-(There is currently a bug here, which resulted in the reversal of the `y` and
-`z` labels). This will be fixed in the next patch!
+![](cookbook_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-```{r}
+This permits us to construct very nice looking matrices with dimensions
+labeled. (There is currently a bug here, which resulted in the reversal
+of the `y` and `z` labels). This will be fixed in the next patch\!
+
+``` r
 library(ggplot2)
 library(ggshapes)
 
@@ -177,16 +200,18 @@ ggplot() +
     )
 ```
 
+![](cookbook_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
 ## Slicing Matrices
 
 Matrices are not interesting if they cannot be manipulated. Slicing is a
-natural next step. To help us better setup matrix locations, we can use the 
-`geom_viewport`. `geom_viewport` provides a box and positions which we can
-use to set up larger figures.
+natural next step. To help us better setup matrix locations, we can use
+the `geom_viewport`. `geom_viewport` provides a box and positions which
+we can use to set up larger figures.
 
-Let's work backwards. We want to create the following.
+Let’s work backwards. We want to create the following.
 
-```{r}
+``` r
 library(ggplot2)
 library(ggshapes)
 library(grid)
@@ -243,9 +268,12 @@ ggplot() +
     )
 ```
 
-We'll start with `geom_viewports` to find out where we want our matrices to be.
+![](cookbook_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-```{r}
+We’ll start with `geom_viewports` to find out where we want our matrices
+to be.
+
+``` r
 library(ggplot2)
 library(ggshapes)
 library(grid)
@@ -260,9 +288,11 @@ ggplot() +
   geom_viewport(aes(xc = +1, yc = 0, w = 1, h = 1)) 
 ```
 
+![](cookbook_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
 The edge points can be used as anchors for placing various segments.
 
-```{r}
+``` r
 library(ggplot2)
 library(ggshapes)
 library(grid)
@@ -284,14 +314,16 @@ ggplot() +
   geom_viewport(aes(xc = +1, yc = 0, w = 1, h = 1)) 
 ```
 
-We can now remove the viewports since we know our `w` and `h` parameters and 
-use these in out `geom_matrix` calls. One current problem is the syntax.
-`w` in viewport is `viewx` in `geom`s and `h` in viewport is `viewy` in `geom`s.
-I apologize for any confusion this will cause. I am currently rewriting 
-`ggshapes` for uniform syntax and speed as well as writing more comprehensive
-documentation.
+![](cookbook_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-```{r}
+We can now remove the viewports since we know our `w` and `h` parameters
+and use these in out `geom_matrix` calls. One current problem is the
+syntax. `w` in viewport is `viewx` in `geom`s and `h` in viewport is
+`viewy` in `geom`s. I apologize for any confusion this will cause. I am
+currently rewriting `ggshapes` for uniform syntax and speed as well as
+writing more comprehensive documentation.
+
+``` r
 library(ggplot2)
 library(ggshapes)
 library(grid)
@@ -346,10 +378,15 @@ ggplot() +
     )
 ```
 
+![](cookbook_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
 ## Known Bugs
 
-- **multiple matrices cannot be drawn at once**
-```{r}
+  - **multiple matrices cannot be drawn at once**
+
+<!-- end list -->
+
+``` r
 ggplot() +
   coord_equal() +
   scale_x_continuous(limits = c(-2,2)) +
@@ -357,8 +394,13 @@ ggplot() +
   geom_matrix(mapping = aes(xc = c(0,1), yc = c(1,0), lx = 2, ly = 2, lz = 3))
 ```
 
-- **matrix slices do not follow common index convention**
-```{r}
+![](cookbook_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+  - **matrix slices do not follow common index convention**
+
+<!-- end list -->
+
+``` r
 ggplot() +
   coord_equal() +
   scale_x_continuous(limits = c(-2,2)) +
@@ -410,3 +452,5 @@ ggplot() +
     zpos = c('start','middle','end'), zlabel = c('3','z','1')
     )
 ```
+
+![](cookbook_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
