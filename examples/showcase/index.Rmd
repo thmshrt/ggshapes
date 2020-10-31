@@ -32,7 +32,7 @@ a white paper for its parent project on developing a grammar of figures.
 
 ## Installation {-}
 
-`ggshapes` will be available in CRAN as soon as documentation is complete using
+`ggshapes` will be available in CRAN as soon as it becomes stable
 
 ```r
 install.packages('ggshapes')
@@ -44,3 +44,10 @@ For now `ggshapes` can be installed from github using
 library(devtools)
 devtools::install_github('thmshrt/ggshapes')
 ```
+
+## Caveat {-}
+
+`ggshapes` is currently in alpha mode and therefore is undergoing rapid changes
+to achieve a uniform syntax and stability. The goal for `ggshapes` version
+`0.0.1` is January 1, 2021.
+
