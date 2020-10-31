@@ -41,3 +41,52 @@ where \cr
 \item \eqn{xc}        is \verb{1 x 1} scalar
 }
 }
+\examples{
+library(dplyr)
+library(magrittr)
+library(ggplot2)
+library(grid)
+library(magrittr)
+# default call behavior is returns tibble or data.frame without
+# modification (identity transformation)
+tribble(
+  ~x, ~y, ~z,
+  0,  0,  0,
+  0,  1,  0,
+  1,  1,  0,
+  1,  0,  0,
+) \%>\%
+  center3()
+
+# fails if one or more of x,y,z not present
+# modification (identity transformation)
+# centering at 0, 0, 0
+tribble(
+  ~x, ~y, ~z,
+  0,  0,  0,
+  0,  1,  0,
+  1,  1,  0,
+  1,  0,  0,
+) \%>\%
+  center3(0,0,0)
+
+# centering at 1, 0, 1
+tribble(
+  ~x, ~y, ~z,
+  0,  0,  0,
+  0,  1,  0,
+  1,  1,  0,
+  1,  0,  0,
+) \%>\%
+  center3(1,0,1)
+
+# centering at 1, 0, 1
+tribble(
+  ~x, ~y, ~z,
+  0,  0,  0,
+  0,  1,  0,
+  1,  1,  0,
+  1,  0,  0,
+) \%>\%
+  center3(xc = 1,zc = 1)
+}

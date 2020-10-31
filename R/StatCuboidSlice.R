@@ -1,17 +1,17 @@
-#' {title placeholder} 
+#' {title placeholder}
 #'
-#' {description placeholder} 
-#' 
+#' {description placeholder}
+#'
 #' @usage
 #' {usage placeholder}
 #'
 #' @param {param}   \[{type}\], {restrictions}
-#' 
+#'
 #' @return           [{type}]
 #'
 #' @export
 #' @import magrittr rlang purrr tibble dplyr ggplot2
-#' 
+#'
 #' @examples
 #' library(dplyr)
 #' library(magrittr)
@@ -23,7 +23,7 @@
 #' #  20 degrees anticlockwise about its y axis
 #' # and then view a cube's front, right, and top faces
 #'
-#'StatCuboidSlice$compute_panel(
+#' StatCuboidSlice$compute_panel(
 #'  data = tibble(
 #'    xc = 0, yc = 0,
 #'    lx = 1, ly = 1, lz = 1,
@@ -32,7 +32,7 @@
 #'  degx = 70, degy = 20, degz = 0,
 #'  # faces = list(c('top','front','right')),
 #'  viewx = 1, viewy = 1, respect = FALSE
-#') %}%
+#' ) %>%
 #'  ggplot() +
 #'  coord_equal() +
 #'  scale_x_continuous(limits = c(-2,2)) +
@@ -67,7 +67,7 @@ StatCuboidSlice = ggplot2::ggproto(
           dplyr::mutate(group = 1:n(),.before = 1) %>%
           # dplyr::mutate(degx,degy,degz,faces,viewx,viewy,respect),
           dplyr::mutate(degx,degy,degz,viewx,viewy,respect),
-        pts_unit_cube(),
+        pts_unit_cube()
       ) %>%
         # center each cube center at xc, yc
         dplyr::group_by(group) %>%
@@ -92,7 +92,7 @@ StatCuboidSlice = ggplot2::ggproto(
               # rotate cuboid
               rotate3(degx = dotx$degx[1],degy = dotx$degy[1],degz = dotx$degz[1]) %>%
               # recenter cuboid at xc, yc, zc
-              center3(xc = dotx$xc[1], yc = dotx$yc[1], zc = 0) %>%
+              center3(xc = xc[1], yc = yc[1], zc = 0) %>%
               # recenter slice at xc, yc, zc
               center3(xc = 0, yc = 0, zc = 0, x = sx, y = sy, z = sz, old_xc = mean(x), old_yc = mean(y), old_zc = mean(z)) %>%
               # scale slice into view

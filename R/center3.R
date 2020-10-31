@@ -63,28 +63,38 @@
 #' ) %>%
 #'   center3(0,0,0)
 #'
-#' # centering at 1, 0, 1
-#' tribble(
-#'   ~x, ~y, ~z,
-#'   0,  0,  0,
-#'   0,  1,  0,
-#'   1,  1,  0,
-#'   1,  0,  0,
-#' ) %>%
-#'   center3(1,0,1)
+# # centering at 1, 0, 1
+# tribble(
+#   ~x, ~y, ~z,
+#   0,  0,  0,
+#   0,  1,  0,
+#   1,  1,  0,
+#   1,  0,  0,
+# ) %>%
+#   center3(1,0,1)
 #'
 #' # centering at 1, 0, 1
-#' tribble(
-#'   ~x, ~y, ~z,
-#'   0,  0,  0,
-#'   0,  1,  0,
-#'   1,  1,  0,
-#'   1,  0,  0,
-#' ) %>%
-#'   center3(xc = 1,zc = 1)
+# tribble(
+#  ~x, ~y, ~z,
+#  0,  0,  0,
+#  0,  1,  0,
+#  1,  1,  0,
+#  1,  0,  0,
+# ) %>%
+#  center3(xc = 1,zc = 1)
+#'
+# pts_unit_cube() %>%
+#   cuboid_slice(sx = .5, sxend = 1,
+#                sy = .5, syend = 1,
+#                sz = 0 , szend = 1) %>%
+#   center3(xc = 0, yc = 0, zc = 0,
+#           x = sx, y = sy, z = sz,
+#           old_xc = mean(x), old_yc = mean(y), old_zc = mean(z))
+
 #' @export
 #' @import rlang purrr tibble dplyr
-#'
+
+
 center3 = function(
   tbl,
   xc = NULL,yc = NULL,zc = NULL,
@@ -92,9 +102,17 @@ center3 = function(
   x = x, y = y, z = z
 ) {
 
-  x = rlang::expr(x)
-  y = rlang::expr(y)
-  z = rlang::expr(z)
+  x = rlang::enexpr(x)
+  y = rlang::enexpr(y)
+  z = rlang::enexpr(z)
+
+  xc = rlang::enexpr(xc)
+  yc = rlang::enexpr(yc)
+  zc = rlang::enexpr(zc)
+
+  old_xc = rlang::enexpr(xc)
+  old_yc = rlang::enexpr(yc)
+  old_zc = rlang::enexpr(zc)
 
   # -------- checks
   # TODO
@@ -123,8 +141,16 @@ center3 = function(
   # # cannot be check since we don't know the expression values until it is evaluated
 
   # -------- BEGIN: setup parameters
+  if (is.null(xc)) xc = rlang::expr(mean(!!x))
+
+  if (is.null(yc)) yc = rlang::expr(mean(!!y))
+
+  if (is.null(zc)) zx = rlang::expr(mean(!!z))
+
   if (is.null(old_xc)) old_xc = rlang::expr(mean(!!x))
+
   if (is.null(old_yc)) old_yc = rlang::expr(mean(!!y))
+
   if (is.null(old_zc)) old_zc = rlang::expr(mean(!!z))
 
   xshift = rlang::expr(- !!old_xc + !!xc)
@@ -133,6 +159,7 @@ center3 = function(
   # -------- BEGIN: end parameters
 
   # -------- logic
+  # print(names(tbl))
   tbl %>%
     dplyr::mutate(
       !!x := !!x + !!xshift,

@@ -20,4 +20,17 @@ An object of class \code{StatMatrixAxes} (inherits from \code{Stat}, \code{ggpro
 \description{
 {description placeholder}
 }
+\examples{
+library(dplyr)
+library(magrittr)
+library(ggplot2)
+library(grid)
+library(magrittr)
+# identity case
+
+# rotate a matrix
+#    70 degrees anticlockwise about its x axis
+#    20 degrees anticlockwise about its y axis
+# and then view a matrix's front, right, and top faces
+}
 \keyword{datasets}

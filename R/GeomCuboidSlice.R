@@ -1,12 +1,12 @@
-#' {title placeholder} 
+#' {title placeholder}
 #'
-#' {description placeholder} 
-#' 
+#' {description placeholder}
+#'
 #' @usage
 #' {usage placeholder}
 #'
 #' @param {param}   \[{type}\], {restrictions}
-#' 
+#'
 #' {return}
 #' @return           [{type}]
 #'
@@ -51,20 +51,20 @@ GeomCuboidSlice = ggplot2::ggproto(
     first_row_inner = inner_transformed[1,]
 
     # return a polygonGrob
-    gList(
-      # outer polygon
-      grid::polygonGrob(
-        x = outer_transformed$x,
-        y = outer_transformed$y,
-        id = outer_transformed$face_int,
-        default.units = 'native',
-        gp = grid::gpar(
-          col = first_row_outer$colour,
-          fill = scales::alpha(first_row_outer$fill, first_row_outer$alpha),
-          lwd = first_row_outer$size * .pt,
-          lty = first_row_outer$linetype
-        )
-      ),
+    grid::gList(
+      # # outer polygon
+      # grid::polygonGrob(
+      #   x = outer_transformed$x,
+      #   y = outer_transformed$y,
+      #   id = outer_transformed$face_int,
+      #   default.units = 'native',
+      #   gp = grid::gpar(
+      #     col = first_row_outer$colour,
+      #     fill = scales::alpha(first_row_outer$fill, first_row_outer$alpha),
+      #     lwd = first_row_outer$size * .pt,
+      #     lty = first_row_outer$linetype
+      #   )
+      # ),
       # inner polygon
       grid::polygonGrob(
         x = inner_transformed$x,

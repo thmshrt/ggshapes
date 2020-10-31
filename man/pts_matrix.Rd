@@ -25,3 +25,31 @@ pts_matrix(lx, ly, lz)
 \description{
 {description placeholder}
 }
+\examples{
+library(dplyr)
+library(magrittr)
+library(ggplot2)
+library(grid)
+library(magrittr)
+lx = 3
+ly = 3
+lz = 3
+xc = -1
+yc = 0
+zc = 0
+pts_matrix(lx = lx, ly = ly, lz = lz) \%>\%
+  dplyr::mutate(lx,ly,lz,xc,yc,zc) \%>\%
+  center3(xc = 0, yc = 0, zc = 0,old_xc = lx[1]/2,old_yc = ly[1]/2,old_zc = lz[1]/2) \%>\%
+  rotate(70,20,0) \%>\%
+  scale_into_view3(mwx = 2, mwy = 2, respect = TRUE) \%>\%
+  center3(xc = xc, yc = yc, zc = zc,old_xc = 0,old_yc = 0,old_zc = 0) \%>\%
+  ggplot() +
+  coord_equal() +
+  scale_x_continuous(limits = c(-4,4)) +
+  scale_y_continuous(limits = c(-4,4)) +
+  geom_viewport(data = tibble(), mapping = aes(xc = xc, yc = yc, h = 2, w = 2)) +
+  geom_polygon(
+    mapping = aes(x = x, y = y, group = draw_order, fill = face),
+    colour = 'black'
+  )
+}

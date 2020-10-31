@@ -12,10 +12,8 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: ggplot2 (>= 3.3.2), grid, devtools (>= 2.3.2), testthat (>=
-        2.3.2), usethis (>= 1.6.3), tidyr (>= 1.1.2), rlang (>= 0.4.8),
-        dplyr (>= 1.0.2), tibble (>= 3.0.4), magrittr (>= 1.5),
-        stringr, assertthat, purrr
+Imports:
+    grid
 NeedsCompilation: no
 Packaged: 2020-10-26 18:54:28 UTC; ubuntu
 Author: Thomas Hart [aut, cre]

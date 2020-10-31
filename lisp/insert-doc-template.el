@@ -26,6 +26,14 @@
   (interactive)
   (insert "#' @export
 #' @import magrittr rlang purrr tibble dplyr ggplot2
+
+
+
+
+
+
+exit
+
 "
 	  ))
 

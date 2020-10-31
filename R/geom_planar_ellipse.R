@@ -1,17 +1,17 @@
-#' {title placeholder} 
+#' {title placeholder}
 #'
-#' {description placeholder} 
-#' 
+#' {description placeholder}
+#'
 #' @usage
 #' {usage placeholder}
 #'
 #' @param {param}   \[{type}\], {restrictions}
-#' 
+#'
 #' @return           [{type}]
 #'
 #' @export
 #' @import magrittr rlang purrr tibble dplyr ggplot2
-#' 
+#'
 #' @examples
 #' library(dplyr)
 #' library(magrittr)
@@ -75,7 +75,7 @@ geom_planar_ellipse = function(
     stat = stat,
     data = data,
     mapping = mapping,
-    geom = GeomUnitCube,
+    geom = GeomPlanarEllipse,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,

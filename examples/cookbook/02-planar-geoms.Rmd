@@ -1,0 +1,64 @@
+
+# Planar Geoms
+
+## `geom_planar_circle` {-}
+
+### usage {-}
+
+```{r geom_planar_circle single}
+library(tibble)
+library(dplyr)
+library(ggplot2)
+library(ggshapes)
+
+ggplot() + 
+  xlim(-2,2) +
+  ylim(-2,2) +
+  coord_equal() +
+  geom_planar_circle(data = tibble(),
+                     mapping = aes(xc = 0, yc = 0, zc = 0, r = 1))
+```
+
+```{r geom_planar_circle multiple}
+# create a scene
+tribble(
+  ~xc  , ~yc  , ~r , ~fill     ,
+  0    , 0    , .5 , 'skyblue3',
+  0.5  , 1    , .75, 'orange3' ,
+  1    , -1   ,  1 , 'purple3' ,
+) -> tbl_circles
+
+ggplot() + 
+  xlim(-2,2) +
+  ylim(-2,2) +
+  coord_equal() +
+  geom_planar_circle(data = tbl_circles,
+                     mapping = aes(xc = xc, yc = yc, zc = 0, r = r))
+```
+
+### gotchas {-}
+
+- [ ] `fill` parameter should permit colors to be assigned to each rows
+
+
+## `geom_planar_point` {-}
+
+### usage {-}
+
+```{r geom_planar_point}
+library(tibble)
+library(dplyr)
+library(ggplot2)
+library(ggshapes)
+
+ggplot() + 
+  xlim(-2,2) +
+  ylim(-2,2) +
+  coord_equal() +
+  geom_planar_point(data = tibble(x = runif(10), y = runif(10)),
+                    mapping = aes(x = x, y = y, z = 0), xc = 0, yc = 0)
+```
+
+### gotchas {-}
+
+- [ ] `xc` uses `NA` instead of `NULL`

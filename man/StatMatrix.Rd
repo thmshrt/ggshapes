@@ -20,4 +20,38 @@ An object of class \code{StatMatrix} (inherits from \code{Stat}, \code{ggproto},
 \description{
 {description placeholder}
 }
+\examples{
+library(dplyr)
+library(magrittr)
+library(ggplot2)
+library(grid)
+library(magrittr)
+# rotate a matrix
+#    70 degrees anticlockwise about its x axis
+#    20 degrees anticlockwise about its y axis
+# and then view a matrix's front, right, and top faces
+StatMatrix$compute_panel(
+ data = tibble(xc = 0, yc = 0, lx = 1, ly = 2, lz = 3), scales = NULL,
+ degx = 70, degy = 20, degz = 0,
+ viewx = 2, viewy = 2, respect = TRUE
+) \%>\%
+ ggplot() +
+ coord_equal() +
+ scale_x_continuous(limits = c(-2,2)) +
+ scale_y_continuous(limits = c(-2,2)) +
+ geom_viewport(data = tibble(), mapping = aes(xc = 0, yc = 0, h = 2, w = 2)) +
+ geom_polygon(mapping = aes(x = x, y = y,group = draw_order, fill = face), colour = 'black')
+
+StatMatrix$compute_panel(
+ data = tibble(xc = -1, yc = 0, lx = 3, ly = 3, lz = 3), scales = NULL,
+ degx = 70, degy = 20, degz = 0,
+ viewx = 2, viewy = 2, respect = TRUE
+) \%>\%
+ggplot() +
+ coord_equal() +
+ scale_x_continuous(limits = c(-4,4)) +
+ scale_y_continuous(limits = c(-4,4)) +
+ geom_viewport(data = tibble(), mapping = aes(xc = -1, yc = 0, h = 2, w = 2)) +
+ geom_polygon(mapping = aes(x = x, y = y,group = draw_order, fill = face), colour = 'black')
+}
 \keyword{datasets}

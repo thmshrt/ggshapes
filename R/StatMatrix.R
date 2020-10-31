@@ -77,10 +77,10 @@ StatMatrix = ggplot2::ggproto(
             dotx,
             pts_matrix(lx = dotx$lx[1],ly = dotx$ly[1],lz = dotx$lz[1])
           ) %>%
-            center3(xc = 0, yc = 0, zc = 0,old_xc = dotx$lx[1]/2,old_yc = dotx$ly[1]/2,old_zc = dotx$lz[1]/2) %>%
+            center3(xc = 0, yc = 0, zc = 0,old_xc = lx[1]/2,old_yc = ly[1]/2,old_zc = lz[1]/2) %>%
             rotate(degx = dotx$degx[1],degy = dotx$degy[1],degz = dotx$degz[1]) %>%
             scale_into_view3(mwx = dotx$viewx[1], mwy = dotx$viewy[1], respect = TRUE) %>%
-            center3(xc = dotx$xc[1], yc = dotx$yc[1], zc = 0,old_xc = 0,old_yc = 0,old_zc = 0)
+            center3(xc = xc[1], yc = yc[1], zc = 0,old_xc = 0,old_yc = 0,old_zc = 0)
         })(.x)
       ) %>%
       # remove grouping

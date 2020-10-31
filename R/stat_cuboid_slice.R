@@ -1,17 +1,17 @@
-#' {title placeholder} 
+#' {title placeholder}
 #'
-#' {description placeholder} 
-#' 
+#' {description placeholder}
+#'
 #' @usage
 #' {usage placeholder}
 #'
 #' @param {param}   \[{type}\], {restrictions}
-#' 
+#'
 #' @return           [{type}]
 #'
 #' @export
 #' @import magrittr rlang purrr tibble dplyr ggplot2
-#' 
+#'
 #' @examples
 #' library(dplyr)
 #' library(magrittr)
@@ -21,21 +21,21 @@
 #' # identity case
 #'
 #'
-#' ggplot() +
-#' coord_equal() +
-#' scale_x_continuous(limits = c(-2,2)) +
-#' scale_y_continuous(limits = c(-2,2)) +
-#' stat_cuboid_slice(
-#'   mapping = aes(
-#'     xc = 0, yc = 0,
-#'     lx = 1, ly = 1, lz = 1,
-#'     sx = .5, sxend = 1,
-#'     sy = .2, syend = 1,
-#'     sz = 0, szend = 1
-#'     ),
-#'   fill = NA,
-#'   colour = 'black'
-#'   )
+# ggplot() +
+# coord_equal() +
+# scale_x_continuous(limits = c(-2,2)) +
+# scale_y_continuous(limits = c(-2,2)) +
+# stat_cuboid_slice(
+#   mapping = aes(
+#     xc = 0, yc = 0,
+#     lx = 1, ly = 1, lz = 1,
+#     sx = .5, sxend = 1,
+#     sy = .2, syend = 1,
+#     sz = 0, szend = 1
+#     ),
+#   fill = NA,
+#   colour = 'black'
+#   )
 
 stat_cuboid_slice = function(
   mapping = NULL,

@@ -1,0 +1,46 @@
+---
+title: "Showcase `ggshapes`"
+author: "Thomas Hart"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+bibliography: [references.bib]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+  )
+```
+
+# About {-}
+
+## Motivation {-}
+
+As scientific ideas become more complex, it is essential that we build 
+reproducible methods of communicating these ideas. The grammar of Hadley 
+Wickham's `ggplot2` has made this happen for plots. However, the plot is just 
+one part of scientific visualization. What the scientific community needs is 
+a grammar of figures. `ggshapes` is the beginning of a project aimed at doing
+just that.
+
+## Purpose {-}
+
+This book is meant as a showcase of the functionality of `ggshapes`. It is not
+a white paper for its parent project on developing a grammar of figures.
+
+## Installation {-}
+
+`ggshapes` will be available in CRAN as soon as documentation is complete using
+
+```r
+install.packages('ggshapes')
+```
+
+For now `ggshapes` can be installed from github using
+
+```r
+library(devtools)
+devtools::install_github('thmshrt/ggshapes')
+```

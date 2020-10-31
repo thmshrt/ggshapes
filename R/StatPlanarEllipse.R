@@ -26,7 +26,7 @@ StatPlanarEllipse = ggplot2::ggproto(
     `_class` = 'StatPlanarEllipse',
     `_inherit` = Stat,
 
-    required_aes = c('xc','yc','zc','r'),
+    required_aes = c('xc','yc','zc','a','b'),
 
     compute_panel = function(
       data,scales,

@@ -25,19 +25,4 @@ library(magrittr)
 # identity case
 
 
-ggplot() +
-  coord_equal() +
-  scale_x_continuous(limits = c(-2,2)) +
-  scale_y_continuous(limits = c(-2,2)) +
-  geom_viewport(aes(xc = 0, yc = 0, w = 2, h = 2)) +
-  geom_matrix(
-    mapping = aes(xc = 0, yc = 0, lx = 1, ly = 2, lz = 3),
-    fill = 'skyblue3', colour = 'grey3',
-    viewx = 2, viewy = 2
-  ) +
-  geom_matrix_axes(
-    mapping = aes(xc = 0, yc = 0, lx = 1, ly = 2, lz = 3),
-    arrow = arrow(15,unit(.25,'cm')),
-    viewx = 2, viewy = 2
-  )
 }
