@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Matrix Geoms | Showcase ggshapes</title>
+  <meta name="description" content="3 Matrix Geoms | Showcase ggshapes" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Matrix Geoms | Showcase ggshapes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Matrix Geoms | Showcase ggshapes" />
+  
+  
+  
+
+<meta name="author" content="Thomas Hart" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="planar-geoms.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#motivation"><i class="fa fa-check"></i>Motivation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#purpose"><i class="fa fa-check"></i>Purpose</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="cube-geoms.html"><a href="cube-geoms.html"><i class="fa fa-check"></i><b>1</b> Cube Geoms</a><ul>
+<li><a href="cube-geoms.html#geom_unit_cube"><code>geom_unit_cube</code></a><ul>
+<li class="chapter" data-level="" data-path="cube-geoms.html"><a href="cube-geoms.html#usage"><i class="fa fa-check"></i>usage</a></li>
+<li class="chapter" data-level="" data-path="cube-geoms.html"><a href="cube-geoms.html#gotchas"><i class="fa fa-check"></i>gotchas</a></li>
+</ul></li>
+<li><a href="cube-geoms.html#geom_cuboid"><code>geom_cuboid</code></a><ul>
+<li class="chapter" data-level="" data-path="cube-geoms.html"><a href="cube-geoms.html#usage-1"><i class="fa fa-check"></i>usage</a></li>
+<li class="chapter" data-level="" data-path="cube-geoms.html"><a href="cube-geoms.html#gotchas-1"><i class="fa fa-check"></i>gotchas</a></li>
+</ul></li>
+<li><a href="cube-geoms.html#geom_cuboid_slice"><code>geom_cuboid_slice</code></a><ul>
+<li class="chapter" data-level="" data-path="cube-geoms.html"><a href="cube-geoms.html#usage-2"><i class="fa fa-check"></i>usage</a></li>
+<li class="chapter" data-level="" data-path="cube-geoms.html"><a href="cube-geoms.html#bugs"><i class="fa fa-check"></i>bugs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="planar-geoms.html"><a href="planar-geoms.html"><i class="fa fa-check"></i><b>2</b> Planar Geoms</a><ul>
+<li><a href="planar-geoms.html#geom_planar_circle"><code>geom_planar_circle</code></a><ul>
+<li class="chapter" data-level="" data-path="planar-geoms.html"><a href="planar-geoms.html#usage-3"><i class="fa fa-check"></i>usage</a></li>
+<li class="chapter" data-level="" data-path="planar-geoms.html"><a href="planar-geoms.html#gotchas-2"><i class="fa fa-check"></i>gotchas</a></li>
+</ul></li>
+<li><a href="planar-geoms.html#geom_planar_point"><code>geom_planar_point</code></a><ul>
+<li class="chapter" data-level="" data-path="planar-geoms.html"><a href="planar-geoms.html#usage-4"><i class="fa fa-check"></i>usage</a></li>
+<li class="chapter" data-level="" data-path="planar-geoms.html"><a href="planar-geoms.html#gotchas-3"><i class="fa fa-check"></i>gotchas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="matrix-geoms.html"><a href="matrix-geoms.html"><i class="fa fa-check"></i><b>3</b> Matrix Geoms</a><ul>
+<li><a href="matrix-geoms.html#geom_matrix"><code>geom_matrix</code></a><ul>
+<li class="chapter" data-level="3.0.1" data-path="matrix-geoms.html"><a href="matrix-geoms.html#usage-5"><i class="fa fa-check"></i><b>3.0.1</b> usage</a></li>
+<li class="chapter" data-level="" data-path="matrix-geoms.html"><a href="matrix-geoms.html#bugs-1"><i class="fa fa-check"></i>bugs</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Showcase <code>ggshapes</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="matrix-geoms" class="section level1">
+<h1><span class="header-section-number">3</span> Matrix Geoms</h1>
+<div id="geom_matrix" class="section level2 unnumbered">
+<h2><code>geom_matrix</code></h2>
+<div id="usage-5" class="section level3">
+<h3><span class="header-section-number">3.0.1</span> usage</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="matrix-geoms.html#cb1-1"></a><span class="kw">library</span>(tibble)</span></code></pre></div>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.0.3</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="matrix-geoms.html#cb3-1"></a><span class="kw">library</span>(dplyr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="matrix-geoms.html#cb7-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="matrix-geoms.html#cb7-2"></a><span class="kw">library</span>(ggshapes)</span></code></pre></div>
+<pre><code>## Warning: replacing previous import &#39;magrittr::set_names&#39; by &#39;purrr::set_names&#39;
+## when loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::list_along&#39; by &#39;rlang::list_along&#39;
+## when loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::invoke&#39; by &#39;rlang::invoke&#39; when
+## loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::flatten_raw&#39; by &#39;rlang::flatten_raw&#39;
+## when loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::modify&#39; by &#39;rlang::modify&#39; when
+## loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::as_function&#39; by &#39;rlang::as_function&#39;
+## when loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::flatten_dbl&#39; by &#39;rlang::flatten_dbl&#39;
+## when loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::flatten_lgl&#39; by &#39;rlang::flatten_lgl&#39;
+## when loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::flatten_int&#39; by &#39;rlang::flatten_int&#39;
+## when loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::%@%&#39; by &#39;rlang::%@%&#39; when loading
+## &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::flatten_chr&#39; by &#39;rlang::flatten_chr&#39;
+## when loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::splice&#39; by &#39;rlang::splice&#39; when
+## loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::flatten&#39; by &#39;rlang::flatten&#39; when
+## loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;purrr::prepend&#39; by &#39;rlang::prepend&#39; when
+## loading &#39;ggshapes&#39;</code></pre>
+<pre><code>## 
+## Attaching package: &#39;ggshapes&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     scale</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="matrix-geoms.html#cb24-1"></a><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb24-2"><a href="matrix-geoms.html#cb24-2"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb24-3"><a href="matrix-geoms.html#cb24-3"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb24-4"><a href="matrix-geoms.html#cb24-4"></a><span class="st">  </span><span class="kw">coord_equal</span>() <span class="op">+</span></span>
+<span id="cb24-5"><a href="matrix-geoms.html#cb24-5"></a><span class="st">  </span><span class="kw">geom_matrix</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">xc =</span> <span class="dv">0</span>, <span class="dt">yc =</span> <span class="dv">0</span>,</span>
+<span id="cb24-6"><a href="matrix-geoms.html#cb24-6"></a>                            <span class="dt">lx =</span> <span class="dv">3</span>, <span class="dt">ly =</span> <span class="dv">2</span>, <span class="dt">lz =</span> <span class="dv">1</span>), </span>
+<span id="cb24-7"><a href="matrix-geoms.html#cb24-7"></a>              <span class="dt">viewx =</span> <span class="dv">2</span>, <span class="dt">viewy =</span> <span class="dv">2</span>,</span>
+<span id="cb24-8"><a href="matrix-geoms.html#cb24-8"></a>              <span class="dt">fill =</span> <span class="st">&#39;skyblue3&#39;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/geom_matrix%20single-1.png" width="672" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="matrix-geoms.html#cb25-1"></a><span class="co"># create a scene</span></span>
+<span id="cb25-2"><a href="matrix-geoms.html#cb25-2"></a><span class="co"># create a scene</span></span>
+<span id="cb25-3"><a href="matrix-geoms.html#cb25-3"></a><span class="kw">tribble</span>(</span>
+<span id="cb25-4"><a href="matrix-geoms.html#cb25-4"></a>  <span class="op">~</span>xc  , <span class="op">~</span>yc  , <span class="op">~</span>lx , <span class="op">~</span>ly , <span class="op">~</span>lz , <span class="op">~</span>fill     ,</span>
+<span id="cb25-5"><a href="matrix-geoms.html#cb25-5"></a>  <span class="dv">0</span>    , <span class="dv">0</span>    , <span class="dv">1</span>   , <span class="dv">1</span>   , <span class="dv">1</span>   , <span class="st">&#39;skyblue3&#39;</span>,  </span>
+<span id="cb25-6"><a href="matrix-geoms.html#cb25-6"></a>  <span class="fl">0.5</span>  , <span class="dv">1</span>    , <span class="dv">1</span>   , <span class="dv">2</span>   , <span class="dv">3</span>   , <span class="st">&#39;orange3&#39;</span> ,  </span>
+<span id="cb25-7"><a href="matrix-geoms.html#cb25-7"></a>  <span class="dv">1</span>    , <span class="dv">-1</span>   , <span class="dv">3</span>   , <span class="dv">2</span>   , <span class="dv">1</span>   , <span class="st">&#39;purple3&#39;</span> ,  </span>
+<span id="cb25-8"><a href="matrix-geoms.html#cb25-8"></a>) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">slice</span>(<span class="dv">3</span>) -&gt;<span class="st"> </span>tbl_matrices</span>
+<span id="cb25-9"><a href="matrix-geoms.html#cb25-9"></a></span>
+<span id="cb25-10"><a href="matrix-geoms.html#cb25-10"></a><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-11"><a href="matrix-geoms.html#cb25-11"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb25-12"><a href="matrix-geoms.html#cb25-12"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb25-13"><a href="matrix-geoms.html#cb25-13"></a><span class="st">  </span><span class="kw">coord_equal</span>() <span class="op">+</span></span>
+<span id="cb25-14"><a href="matrix-geoms.html#cb25-14"></a><span class="st">  </span><span class="kw">geom_matrix</span>(<span class="dt">data =</span> tbl_matrices,</span>
+<span id="cb25-15"><a href="matrix-geoms.html#cb25-15"></a>                 <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">xc =</span> xc, <span class="dt">yc =</span> yc, </span>
+<span id="cb25-16"><a href="matrix-geoms.html#cb25-16"></a>                               <span class="dt">lx =</span> lx, <span class="dt">ly =</span> ly, <span class="dt">lz =</span> lz))</span></code></pre></div>
+<p><img src="_main_files/figure-html/geom_matrix%20multiple-1.png" width="672" /></p>
+</div>
+<div id="bugs-1" class="section level3 unnumbered">
+<h3>bugs</h3>
+<ul>
+<li><input type="checkbox" disabled="" />
+does not permit 1 row : 1 matrix</li>
+<li><input type="checkbox" disabled="" />
+does not properly center the matrix at 0, 0</li>
+<li><input type="checkbox" disabled="" />
+<code>fill</code> parameter should permit colors to be assigned to each rows</li>
+</ul>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="planar-geoms.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
