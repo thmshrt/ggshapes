@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 As scientific ideas become more complex, it is essential that we build 
 reproducible methods of communicating these ideas. The grammar of Hadley 
 Wickham's `ggplot2` has made this happen for plots. However, the plot is just 
-one part of scientific visualization. What the scientific community needs is 
+one of many components of a scientific visualization. What the scientific community needs is 
 a grammar of figures. `ggshapes` is the beginning of a project aimed at doing
 just that.
 
