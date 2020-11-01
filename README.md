@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggshapes-alpha
+# [https://thmshrt.github.io/ggshapes/index.html][ggshapes]
 
 <!-- badges: start -->
 
