@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# (https://thmshrt.github.io/ggshapes/index.html)[ggshapes]
+# ggshapes
 
 <!-- badges: start -->
 
@@ -16,8 +16,7 @@
 ## TLDR
 
 1.  Install using `devtools::install_github('thmshrt/ggshapes')`
-2.  Open `examples/cookbook.html`
-    <!-- and `examples/visual-reference.html` -->
+2.  Open [showcase](https://thmshrt.github.io/ggshapes/index.html)
 3.  See if the visual examples fit your use case
 
 ## Summary
