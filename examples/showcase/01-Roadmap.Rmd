@@ -1,0 +1,58 @@
+```{r roadmap setup, include=FALSE}
+knitr::opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  error = FALSE,
+  eval = TRUE,
+  echo = FALSE
+  )
+```
+
+# Roadmap
+
+```{r roadmap}
+library(tibble)
+library(knitr)
+tribble(
+  ~name                   , ~implemented, ~paramchecks, ~unittested, ~documented, ~showcased,
+  # essential functions
+  '`center3`'              ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`rotate3`'              ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`scale3`'               ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`scale_into`'           ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  
+  # cube
+  # pts
+  '`pts_unit_cube`'        ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,  
+  '`pts_cuboid`'           ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,  
+  '`pts_cuboid_slice`'     ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`pts_cuboid_face`'      ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`pts_cuboid_axis`'      ,       FALSE,        FALSE,       FALSE,       FALSE,      FALSE,
+  '`pts_cuboid_axis_label`',        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  # pts_cuboid_indices no analogÎÎ
+  # geoms
+  
+  # matrix
+  # ptsÇ
+  '`pts_scalar`'           ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`pts_matrix`'           ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`pts_matrix_slice`'     ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`pts_matrix_indices`'   ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`pts_matrix_face`'      ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`pts_matrix_axis`'      ,       FALSE,        FALSE,       FALSE,       FALSE,      FALSE,
+  # '`pts_matrix_axis_label`',        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  # can just be constructed using cuboid axis label
+  # geoms
+  
+  # planar
+  # pts
+  '`pts_planar_circle`'    ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`pts_planar_ellipse`'   ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  '`pts_planar_polygon`'   ,        TRUE,         TRUE,       FALSE,        TRUE,      FALSE,
+  # '`pts_planar_cell_table`',       FALSE,        FALSE,       FALSE,       FALSE,      FALSE,
+  # does not scale appropriately
+  # '`pts_planar_row_table`' ,       FALSE,        FALSE,       FALSE,       FALSE,      FALSE,
+  
+  # geoms
+) %>% knitr::kable()
+```

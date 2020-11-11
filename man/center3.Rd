@@ -2,91 +2,57 @@
 % Please edit documentation in R/center3.R
 \name{center3}
 \alias{center3}
-\title{Use expressions to center a tbl or data.frame at \code{xc}, \code{yc} \code{zc}}
+\title{Center pts in 3D}
 \usage{
-center3(tbl, xc = NULL, yc = NULL, zc = NULL, old_xc = NULL,
-old_yc = NULL, old_zc = NULL, x = x, y = y, z = z)
+center3(
+  tbl,
+  at_x_ = NULL, at_y_ = NULL, at_z_ = NULL,
+  x_ = x, y_ = y, z_ = z,
+  use_bounding_box = TRUE,
+  keep_bounding = TRUE
+)
 }
 \arguments{
-\item{tbl}{[data.frame or tibble], contains named columns \code{x}, \code{y}, \code{z}}
+\item{tbl}{[tibble], a tibble containing points to be centered}
 
-\item{xc}{[numeric], default NULL, length 1, new \code{x} center}
+\item{at_x_}{[numeric], length 1, default NULL, \cr
+value by which to center \code{x} variable in \code{tbl} \cr
+default behavior is to leave center unchanged}
 
-\item{yc}{[numeric], default NULL, length 1, new \code{y} center}
+\item{at_y_}{[numeric], length 1, default NULL, \cr
+value by which to center \code{y} variable in \code{tbl} \cr
+default behavior is to leave center unchanged}
 
-\item{zc}{[numeric], default NULL, length 1, new \code{z} center}
+\item{at_z_}{[numeric], length 1, default NULL, \cr
+value by which to center \code{z} variable in \code{tbl} \cr
+default behavior is to leave center unchanged}
 
-\item{old_xc}{[numeric], default NULL, length 1, old \code{x} center}
+\item{x_}{[expr], variable name in \code{tbl} of \code{x} variable}
 
-\item{old_yc}{[numeric], default NULL, length 1, old \code{y} center}
+\item{y_}{[expr], variable name in \code{tbl} of \code{y} variable}
 
-\item{old_zc}{[numeric], default NULL, length 1, old \code{z} center}
+\item{z_}{[expr], variable name in \code{tbl} of \code{z} variable}
+
+\item{use_bounding_box}{[logical], length 1, default \code{TRUE}, \cr
+if \code{FALSE} rotate3 does not use bounding box points to make computations \cr
+default behavior is to use bounding box points to make computations}
+
+\item{keep_bounding}{[logical], length 1, default \code{TRUE}, \cr
+if \code{FALSE} does not rbind the bounding box back after computation \cr
+default behavior is to use bounding box points to make computations}
 }
 \value{
-\preformatted{      [tibble], with `x`, `y`, `z` centered at `xc`,`yc`,`zc`
+\itemize{
+\item \link{tibble} with values
+\item \code{x} centered x coordinate
+\item \code{y} centered y coordinate
+\item \code{z} centered z coordinate
+\item \code{face} is point part of "front", "back", "left", "right", "bottom" or "top" face
+\item \code{tb} is point on "top", "middle", "bottom" side of face
+\item \code{rl} is point on "right", "middle", "left" side of face
+\item \code{bounding_box} if \code{TRUE}, point is part of bounding box
 }
 }
 \description{
-Centers a table containing with variables aliased by \code{x}, \code{y}, \code{z}
-at a point specified by expressions \code{xc}, \code{yc} \code{zc}. Using column
-\code{x} as an example, the new coordinates are computed using \cr
-\cr
-\deqn{x_{i} = x_{i} - mean(x) + xc}
-\cr
-where \cr
-\itemize{
-\item \eqn{x}         is \verb{m x 1} column
-\item \eqn{x_{i}}     is \code{i}th element in column
-\item \eqn{mean(x)}   is \eqn{\frac{1}{\vert x \vert} \sum_i x_i}
-\item \eqn{xc}        is \verb{1 x 1} scalar
-}
-}
-\examples{
-library(dplyr)
-library(magrittr)
-library(ggplot2)
-library(grid)
-library(magrittr)
-# default call behavior is returns tibble or data.frame without
-# modification (identity transformation)
-tribble(
-  ~x, ~y, ~z,
-  0,  0,  0,
-  0,  1,  0,
-  1,  1,  0,
-  1,  0,  0,
-) \%>\%
-  center3()
-
-# fails if one or more of x,y,z not present
-# modification (identity transformation)
-# centering at 0, 0, 0
-tribble(
-  ~x, ~y, ~z,
-  0,  0,  0,
-  0,  1,  0,
-  1,  1,  0,
-  1,  0,  0,
-) \%>\%
-  center3(0,0,0)
-
-# centering at 1, 0, 1
-tribble(
-  ~x, ~y, ~z,
-  0,  0,  0,
-  0,  1,  0,
-  1,  1,  0,
-  1,  0,  0,
-) \%>\%
-  center3(1,0,1)
-
-# centering at 1, 0, 1
-tribble(
-  ~x, ~y, ~z,
-  0,  0,  0,
-  0,  1,  0,
-  1,  1,  0,
-  1,  0,  0,
-) \%>\%
-  center3(xc = 1,zc = 1)
+{description placeholder}
 }

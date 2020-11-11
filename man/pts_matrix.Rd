@@ -2,54 +2,34 @@
 % Please edit documentation in R/pts_matrix.R
 \name{pts_matrix}
 \alias{pts_matrix}
-\title{Unit matrix with labeled points}
+\title{Matrix points}
 \usage{
-pts_matrix(lx, ly, lz)
+pts_matrix(
+  nx_ = 1,
+  ny_ = 1,
+  nz_ = 1
+)
 }
 \arguments{
-\item{{param}}{}
+\item{nx_}{[integer], length 1, positive, x dimension of matrix}
+
+\item{ny_}{[integer], length 1, positive, y dimension of matrix}
+
+\item{nz_}{[integer], length 1, positive, z dimension of matrix}
 }
 \value{
-\preformatted{      [tibble], with `x`, `y`, `z`, `face`, `tb`, `rl`, `order`
-}
+\link{tibble} with columns
 \itemize{
-\item \code{x}     is x coordinate of point
-\item \code{y}     is y coordinate of point
-\item \code{z}     is z coordinate of point
-\item \code{face}  is face of point
-\item \code{tb}    is tb is whether point is bottom or top, this is relative
-\item \code{rl}    is rl is whether point is right or left, this is relative
-\item \code{order} is for grouping in conjuction with \code{face} to pass to polygon
+\item \code{x} x coordinate of point
+\item \code{y} y coordinate of point
+\item \code{z} z coordinate of point
+\item \code{face} is face front, back, top, bottom, left or right
+\item \code{tb} is the point on top, bottom or middle of face
+\item \code{rl} is the point on left, right or middle of face
+\item \code{point_order} points draw order
+\item \code{face_order}  face draw order for default faces
 }
 }
 \description{
 {description placeholder}
-}
-\examples{
-library(dplyr)
-library(magrittr)
-library(ggplot2)
-library(grid)
-library(magrittr)
-lx = 3
-ly = 3
-lz = 3
-xc = -1
-yc = 0
-zc = 0
-pts_matrix(lx = lx, ly = ly, lz = lz) \%>\%
-  dplyr::mutate(lx,ly,lz,xc,yc,zc) \%>\%
-  center3(xc = 0, yc = 0, zc = 0,old_xc = lx[1]/2,old_yc = ly[1]/2,old_zc = lz[1]/2) \%>\%
-  rotate(70,20,0) \%>\%
-  scale_into_view3(mwx = 2, mwy = 2, respect = TRUE) \%>\%
-  center3(xc = xc, yc = yc, zc = zc,old_xc = 0,old_yc = 0,old_zc = 0) \%>\%
-  ggplot() +
-  coord_equal() +
-  scale_x_continuous(limits = c(-4,4)) +
-  scale_y_continuous(limits = c(-4,4)) +
-  geom_viewport(data = tibble(), mapping = aes(xc = xc, yc = yc, h = 2, w = 2)) +
-  geom_polygon(
-    mapping = aes(x = x, y = y, group = draw_order, fill = face),
-    colour = 'black'
-  )
 }

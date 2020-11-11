@@ -1,75 +1,120 @@
-#' {title placeholder} 
+
+#BEGIN: description
+#' Pts for a planar ellipse
 #'
-#' {description placeholder} 
-#' 
+#'
 #' @usage
-#' {usage placeholder}
+#' pts_planar_ellipse(
+#'   c1 = 0,
+#'   c2 = 0,
+#'   p = 0,
+#'   c1_var = x,
+#'   c2_var = y,
+#'   p_var = z,
+#'   a = 1,
+#'   b = 1,
+#'   n = 50
+#' )
 #'
-#' @param {param}   \[{type}\], {restrictions}
-#' 
-#' @return           [{type}]
+#' @param c1       \[numeric\], center on axis 1
+#' @param c2       \[numeric\], center on axis 2
+#' @param p       \[numeric\], value for planar axis
+#' @param c1_var   \[symbol\], name of axis 1
+#' @param c2_var   \[symbol\], name of axis 2
+#' @param p_var   \[symbol\], name of axis p
+#' @param a   \[symbol\], expansion in axis 1
+#' @param b   \[symbol\], expansion in axis 2
+#' @param n   \[symbol\], number of points to approximate
+#'
+#' @return
+#' [tibble] with columns
+#' * `x` x coordinate of point
+#' * `y` y coordinate of point
+#' * `z` z coordinate of point
+#' * `face` is face front, back, top, bottom, left or right
+#' * `tb` is the point on top, bottom or middle of face
+#' * `rl` is the point on left, right or middle of face
+#' * `point_order` points draw order
+#' * `face_order`  face draw order for default faces
 #'
 #' @export
-#' @import magrittr rlang purrr tibble dplyr ggplot2
-#' 
-#' @examples
-#' library(dplyr)
-#' library(magrittr)
-#' library(ggplot2)
-#' library(grid)
-#' library(magrittr)
-#' # identity case
-#'
-#'
-#' ggplot() +
-#'   coord_equal() +
-#'   scale_x_continuous(limits = c(-2,2)) +
-#'   scale_y_continuous(limits = c(-2,2)) +
-#'   geom_point(
-#'     data = pts_planar_ellipse(n=32),
-#'     mapping = aes(x = x, y = y)
-#'   ) +
-#'   geom_polygon(
-#'     data = pts_planar_ellipse(n = 32),
-#'     mapping = aes(x = x, y = y),
-#'     fill = 'NA',
-#'     colour = 'black'
-#'   )
-#
-#' ggplot() +
-#'   coord_equal() +
-#'   scale_x_continuous(limits = c(-2,2)) +
-#'   scale_y_continuous(limits = c(-2,2)) +
-#'   geom_polygon(
-#'     data = pts_planar_ellipse(a = 1, b = 2, n=32),
-#'     mapping = aes(x = x, y = y),
-#'     fill = NA,
-#'     colour = 'skyblue3'
-#'   ) +
-#'   geom_polygon(
-#'     data = pts_planar_ellipse(a = 2, b = 1, n=32),
-#'     mapping = aes(x = x, y = y),
-#'     fill = NA,
-#'     colour = 'orange2'
-#'   )
+#' @importFrom magrittr %>%
+#END: description
+#BEGIN: code
 
-pts_planar_ellipse = function(a = 1, b = 1,z = 0, n = 50) {
+pts_planar_ellipse = function(
+  c1 = 0,
+  c2 = 0,
+  p = 0,
+  c1_var = x,
+  c2_var = y,
+  p_var = z,
+  a = 1,
+  b = 1,
+  n = 50
+) {
+  #BEGIN: setup params
+  c1_var = rlang::ensym(c1_var)
+  c2_var = rlang::ensym(c2_var)
+  p_var = rlang::ensym(p_var)
+  #END: setup params
 
-  # BEGIN : checks
-  # r is numeric or integer, nonnegative, length 1
-  # z is numeric or integer, length 1
-  # n is numeric or integer, nonnegative, length 1
-  # END : checks
+  #BEGIN: param checks
+  if (!all(c(length(c1),length(c2))==1))
+    rlang::abort(message = 'params c1, c2 must satisfy length(v) == 1')
 
-  # BEGIN: logic
-  theta = seq(0, 2*pi - 2*pi/n, length.out = n)
+  if (!all(c(length(a),length(b),length(n))==1))
+    rlang::abort(message = 'params a, b, n must satisfy length(v) == 1')
+  #END: param checks
 
+  #BEGIN: computation
+  theta = seq(0,2*pi - 2*pi/n,length = n)
   tibble(
-    x = a * cos(theta),
-    y = b * sin(theta),
-    z = z,
-    order = 1:length(theta)
+    !!c1_var := a * cos(theta) + c1,
+    !!c2_var := b * sin(theta) + c2,
+    !!p_var := p,
+    face = NA, tb = NA, rl = NA,
+    point_order = 1:n, face_order = NA, bounding_box = FALSE
   )
-  # END: logic
+  #END: computation
 
+  #BEGIN: return
+
+  #END: return
 }
+
+#END: code
+#BEGIN: examples
+#' @examples
+#' #BEGIN: example
+#' # default is circle of radius 1 centered at 0,0
+#' library(ggplot2)
+#' pts_planar_ellipse() -> data
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(-2,2) +
+#'   ylim(-2,2) +
+#'   geom_polygon(data = data,
+#'                mapping = aes(x = x, y = y),
+#'                color = 'black', fill = NA)
+#' #END: example
+#'
+#' #BEGIN: example
+#' # a stretches the ellipse in the "horizontal" direction
+#' # b stretches the ellipse in the "vertical" direction
+#' library(ggplot2)
+#' pts_planar_ellipse(a = 1.5, b = 1) -> data
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(-2,2) +
+#'   ylim(-2,2) +
+#'   geom_polygon(data = data,
+#'                mapping = aes(x = x, y = y),
+#'                color = 'black', fill = NA)
+#' #END: example
+#'
+#' #BEGIN: example
+#' # {case description}
+#' {code placeholder}
+#' #END: example
+#END: examples

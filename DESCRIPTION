@@ -1,22 +1,31 @@
 Package: ggshapes
-Title: Add 3D-Lite Shapes To Ggplots
-Version: 0.0.0.9003
+Title: Add 3D-Lite shapes to ggplots
+Version: 0.0.0.9004
 Authors@R: 
     person(given = "Thomas",
            family = "Hart",
            role = c("aut", "cre"),
            email = "thh4002@med.cornell.edu")
-Description: A collection of geoms and shapes to add 3D-Lite shapes to ggplots. 
+Description: As scientific ideas become more complex, it is essential that we build
+    reproducible methods of communicating these ideas. The grammar of Hadley
+    Wickham's `ggplot2` has made this happen for plots. However, the plot is just
+    one of many components of a scientific visualization. What the scientific community needs is
+    a grammar of figures. `ggshapes` is the beginning of a project aimed at doing
+    just that.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports:
-    grid
-NeedsCompilation: no
-Packaged: 2020-10-26 18:54:28 UTC; ubuntu
-Author: Thomas Hart [aut, cre]
-Maintainer: Thomas Hart <thh4002@med.cornell.edu>
-URL: https://github.com/thmshrt/ggshapes
-BugReports: https://github.com/thmshrt/ggshapes/issues
+Imports: 
+    devtools,
+    ggplot2,
+    grid,
+    tibble,
+    dplyr,
+    testthat,
+    rstudioapi,
+    readr,
+    magrittr,
+    rlang,
+    tidyr

@@ -1,85 +1,197 @@
-#' Unit matrix with labeled points
+
+#BEGIN: description
+#' Matrix points
 #'
 #' {description placeholder}
 #'
-#' @param {param}
+#' @usage
+#' pts_matrix(
+#'   nx_ = 1,
+#'   ny_ = 1,
+#'   nz_ = 1
+#' )
 #'
+#' @param nx_    \[integer\], length 1, positive, x dimension of matrix
+#' @param ny_    \[integer\], length 1, positive, y dimension of matrix
+#' @param nz_    \[integer\], length 1, positive, z dimension of matrix
 #'
-#' @return           [tibble], with `x`, `y`, `z`, `face`, `tb`, `rl`, `order`
-#' * `x`     is x coordinate of point
-#' * `y`     is y coordinate of point
-#' * `z`     is z coordinate of point
-#' * `face`  is face of point
-#' * `tb`    is tb is whether point is bottom or top, this is relative
-#' * `rl`    is rl is whether point is right or left, this is relative
-#' * `order` is for grouping in conjuction with `face` to pass to polygon
+#' @return
+#' [tibble] with columns
+#' * `x` x coordinate of point
+#' * `y` y coordinate of point
+#' * `z` z coordinate of point
+#' * `face` is face front, back, top, bottom, left or right
+#' * `tb` is the point on top, bottom or middle of face
+#' * `rl` is the point on left, right or middle of face
+#' * `point_order` points draw order
+#' * `face_order`  face draw order for default faces
 #'
 #' @export
-#' @import magrittr rlang purrr tibble dplyr ggplot2
-#'
-#' @examples
-#' library(dplyr)
-#' library(magrittr)
-#' library(ggplot2)
-#' library(grid)
-#' library(magrittr)
-#' lx = 3
-#' ly = 3
-#' lz = 3
-#' xc = -1
-#' yc = 0
-#' zc = 0
-#' pts_matrix(lx = lx, ly = ly, lz = lz) %>%
-#'   dplyr::mutate(lx,ly,lz,xc,yc,zc) %>%
-#'   center3(xc = 0, yc = 0, zc = 0,old_xc = lx[1]/2,old_yc = ly[1]/2,old_zc = lz[1]/2) %>%
-#'   rotate(70,20,0) %>%
-#'   scale_into_view3(mwx = 2, mwy = 2, respect = TRUE) %>%
-#'   center3(xc = xc, yc = yc, zc = zc,old_xc = 0,old_yc = 0,old_zc = 0) %>%
-#'   ggplot() +
-#'   coord_equal() +
-#'   scale_x_continuous(limits = c(-4,4)) +
-#'   scale_y_continuous(limits = c(-4,4)) +
-#'   geom_viewport(data = tibble(), mapping = aes(xc = xc, yc = yc, h = 2, w = 2)) +
-#'   geom_polygon(
-#'     mapping = aes(x = x, y = y, group = draw_order, fill = face),
-#'     colour = 'black'
-#'   )
+#' @importFrom magrittr %>%
+#' @importFrom dplyr bind_cols
+#END: description
+#BEGIN: code
 
-pts_matrix = function(lx,ly,lz) {
-  tidyr::crossing(
-    tidyr::crossing(ix = 1:lx,iy = 1:ly,iz = 1:lz) %>% dplyr::mutate(shape_index = 1:n()),
-    tribble(
-      ~x, ~y, ~z, ~face   , ~tb     , ~rl     , ~point_order, ~face_order,
-       0,  0,  0, 'front' , 'bottom', 'left'  ,            1,          1,
-       0,  0,  1, 'front' , 'top'   , 'left'  ,            2,          1,
-       1,  0,  1, 'front' , 'top'   , 'right' ,            3,          1,
-       1,  0,  0, 'front' , 'bottom', 'right' ,            4,          1,
+pts_matrix = function(
+  nx_ = 1,
+  ny_ = 1,
+  nz_ = 1
+) {
+  #BEGIN: setup params
+  nx_ = rlang::enexpr(nx_)
+  ny_ = rlang::enexpr(ny_)
+  nz_ = rlang::enexpr(nz_)
 
-       0,  0,  1, 'top'   , 'bottom', 'left'  ,            1,          3,
-       0,  1,  1, 'top'   , 'top'   , 'left'  ,            2,          3,
-       1,  1,  1, 'top'   , 'top'   , 'right' ,            3,          3,
-       1,  0,  1, 'top'   , 'bottom', 'right' ,            4,          3,
+  #END: setup params
 
-       1,  0,  0, 'right' , 'bottom', 'left'  ,            1,          2,
-       1,  0,  1, 'right' , 'top'   , 'left'  ,            2,          2,
-       1,  1,  1, 'right' , 'top'   , 'right' ,            3,          2,
-       1,  1,  0, 'right' , 'bottom', 'right' ,            4,          2
-      )
-    ) %>%
-    # update x,y,z to reflect face
-    # dplyr::group_by(shape_index) %>%
+  #BEGIN: param checks
+  if (!all(c(length(nx_),length(ny_),length(nz_)) == 1))
+    rlang::abort(message = "params nx_, ny_, nz_ must satisfy length(v) == 1")
+
+  if (!all(c(nx_,ny_,nz_) == as.integer(c(nx_,ny_,nz_))))
+    rlang::abort(message = "params nx_, ny_, nz_ must satisfy v == as.integer(v)")
+
+  if (!all(c(nx_,ny_,nz_) >= 1))
+    rlang::abort(message = "params nx_, ny_, nz_ must satisfy v >= 1")
+  #END: param checks
+
+  #BEGIN: computation
+  pts_unit_bounding_box() %>%
+    scale3(!!nx_, !!ny_, !!nz_) ->
+    tbl_bounding_box
+
+  # indices
+  tidyr::crossing(ix = 1:!!nx_,
+                  iy = 1:!!ny_,
+                  iz = 1:!!nz_
+                  ) %>%
+    # remove unseen blocks
+    # keep only visible top, right, front blocks
+    dplyr::mutate(is_min_z = iz == min(iz),
+                  is_max_x = ix == max(ix),
+                  is_max_y = iy == max(iy)) %>%
+    dplyr::filter(is_max_x | is_max_y | is_min_z ) %>%
+    dplyr::select(-is_min_z, -is_max_x, -is_max_y) %>%
+    # add in points
+    dplyr::mutate(scalar_id=1:n()) %>%
+    tidyr::crossing(.,pts_scalar(keep_bounding = FALSE)) %>%
+    # dplyr::group_by(scalar_id) %>%
+    # dplyr::group_modify(
+    #   ~(function(dotx)
+    #     bind_cols(dotx,)
+    #     )(.x)) %>%
+    # dplyr::ungroup() %>%
+    # compute x, y, z
     dplyr::mutate(
-      x = ix - (1 - x),
-      y = iy - (1 - y),
-      z = iz - (1 - z)
-    ) %>%
-    # filter to keep exterior
-    dplyr::filter(
-        (face == 'right' & x == max(x))
-      | (face == 'front' & y == min(y))
-      | (face == 'top'   & z == max(z))
-    ) %>%
-    # artificial draw order
-    dplyr::arrange(desc(iy),face_order,ix,desc(iz),point_order) %>%
-    dplyr::mutate(draw_order = rep(1:(n()/4),each = 4))
+      x = ix - 1 + x,
+      y = !!ny_ - iy + y,
+      z = !!nz_ - iz + z,
+      ) %>%
+    # # remove unseen faces
+    # keep only visible top, right, front faces
+    dplyr::mutate(top_is_visible = iz == min(iz) & face == 'top',
+                  right_is_visible = ix == max(ix) & face == 'right',
+                  front_is_visible = iy == max(iy) & face == 'front') %>%
+    dplyr::filter(top_is_visible | right_is_visible | front_is_visible) %>%
+    dplyr::select(-top_is_visible, -right_is_visible, -front_is_visible) %>%
+    # dplyr::select(-is_min_z, -is_max_x, -is_max_y, -keep_face) %>%
+    dplyr::arrange(desc(iz),iy,ix,face_order,point_order) %>%
+    dplyr::mutate(shape_id = paste(iz,iy,iz,face_order,sep=',')) %>%
+    dplyr::bind_rows(tbl_bounding_box)
+    # keep only outermost faces
+  #END: computation
 }
+
+
+#END: code
+#BEGIN: examples
+#' @examples
+#' #BEGIN: example
+#' # pts_matrix default behavior is a scalar matrix
+#' pts_matrix() %>%
+#'   center3(0,0,0) %>%
+#'   rotate3(70,20,keep_bounding = FALSE) -> data
+#'
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(c(-4,4)) +
+#'   ylim(c(-4,4)) +
+#'   geom_polygon(
+#'     data = data,
+#'     mapping = aes(x = x, y = y, group = shape_id, fill = face),
+#'     colour = 'black'
+#'   ) +
+#'   geom_text(
+#'     data = data %>% dplyr::filter(face == 'right' & tb == 'top' & rl == 'middle'),
+#'     mapping = aes(x = x, y = y, label = sprintf('%i,%i,%i',ix,iy,iz))
+#'   )
+#' #END: example
+#'
+#' #BEGIN: example
+#' # creating a matrix of dimension 3x2x1
+#' pts_matrix(3,2,1) %>%
+#'   center3(0,0,0) %>%
+#'   rotate3(70,20,keep_bounding = FALSE) -> data
+#'
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(c(-4,4)) +
+#'   ylim(c(-4,4)) +
+#'   geom_polygon(
+#'     data = data,
+#'     mapping = aes(x = x, y = y, group = shape_id, fill = face),
+#'     colour = 'black'
+#'   ) +
+#'   geom_text(
+#'     data = data %>% dplyr::filter(face == 'top' & tb == 'bottom' & rl == 'middle'),
+#'     mapping = aes(x = x, y = y, label = sprintf('%i,%i,%i',ix,iy,iz))
+#'   )
+#' #END: example
+#'
+#' #' #BEGIN: example
+#' # indices are in standard mathematical notation orientation
+#' # but are 1 indexed to be consistent with R's indexing
+#' pts_matrix(3,2,1) %>%
+#'   center3(0,0,0,keep_bounding = FALSE) -> data
+#'
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(c(-4,4)) +
+#'   ylim(c(-4,4)) +
+#'   geom_polygon(
+#'     data = data,
+#'     mapping = aes(x = x, y = y, group = shape_id, fill = face),
+#'     colour = 'black'
+#'   ) +
+#'   geom_text(
+#'     data = data %>% dplyr::filter(face == 'top' & tb == 'bottom' & rl == 'middle'),
+#'     mapping = aes(x = x, y = y, label = sprintf('%i,%i,%i',ix,iy,iz))
+#'   )
+#' #END: example
+#'
+#' #' #BEGIN: example
+#' # drawing larger matrices is a bit slow. we are actively working to speed
+#' # this up. please consider using ellipses matrices to very large matrices.
+#' # also ellispes matrices represent very large matrices quite nicely
+#' pts_matrix(10,10,10) %>%
+#'   center3(0,0,0) %>%
+#'   rotate3(70,20) %>%
+#'   scale_into_viewport() -> data
+#'
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(c(-2,2)) +
+#'   ylim(c(-2,2)) +
+#'   geom_polygon(
+#'     data = data,
+#'     mapping = aes(x = x, y = y, group = shape_id, fill = face),
+#'     colour = 'black'
+#'   ) +
+#'   geom_polygon(
+#'     data = pts_viewport(),
+#'     mapping = aes(x = x, y = y),
+#'     fill = NA, colour = 'black'
+#'   )
+#'
+#' #END: example
+#END: examples

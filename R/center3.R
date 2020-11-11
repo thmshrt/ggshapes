@@ -1,169 +1,258 @@
-#' Use expressions to center a tbl or data.frame at `xc`, `yc` `zc`
+
+#BEGIN: description
+#' Center pts in 3D
 #'
-#' Centers a table containing with variables aliased by `x`, `y`, `z`
-#' at a point specified by expressions `xc`, `yc` `zc`. Using column
-#' `x` as an example, the new coordinates are computed using \cr
-#' \cr
-#' \deqn{x_{i} = x_{i} - mean(x) + xc}
-#' \cr
-#' where \cr
-#' * \eqn{x}         is `m x 1` column
-#' * \eqn{x_{i}}     is `i`th element in column
-#' * \eqn{mean(x)}   is \eqn{\frac{1}{\vert x \vert} \sum_i x_i}
-#' * \eqn{xc}        is `1 x 1` scalar
+#' {description placeholder}
 #'
 #' @usage
-#' center3(tbl, xc = NULL, yc = NULL, zc = NULL, old_xc = NULL,
-#' old_yc = NULL, old_zc = NULL, x = x, y = y, z = z)
+#' center3(
+#'   tbl,
+#'   at_x_ = NULL, at_y_ = NULL, at_z_ = NULL,
+#'   x_ = x, y_ = y, z_ = z,
+#'   use_bounding_box = TRUE,
+#'   keep_bounding = TRUE
+#' )
 #'
-#' @param tbl        \[data.frame or tibble\], contains named columns `x`, `y`, `z`
-#' @param xc         \[numeric\], default NULL, length 1, new `x` center
-#' @param yc         \[numeric\], default NULL, length 1, new `y` center
-#' @param zc         \[numeric\], default NULL, length 1, new `z` center
-#' @param old_xc     \[numeric\], default NULL, length 1, old `x` center
-#' @param old_yc     \[numeric\], default NULL, length 1, old `y` center
-#' @param old_zc     \[numeric\], default NULL, length 1, old `z` center
-#' @return           [tibble], with `x`, `y`, `z` centered at `xc`,`yc`,`zc`
+#' @param tbl     \[tibble\], a tibble containing points to be centered
+#' @param at_x_   \[numeric\], length 1, default NULL, \cr
+#' value by which to center `x` variable in `tbl` \cr
+#' default behavior is to leave center unchanged
+#' @param at_y_   \[numeric\], length 1, default NULL, \cr
+#' value by which to center `y` variable in `tbl` \cr
+#' default behavior is to leave center unchanged
+#' @param at_z_   \[numeric\], length 1, default NULL, \cr
+#' value by which to center `z` variable in `tbl` \cr
+#' default behavior is to leave center unchanged
+#' @param x_     \[expr\], variable name in `tbl` of `x` variable
+#' @param y_     \[expr\], variable name in `tbl` of `y` variable
+#' @param z_     \[expr\], variable name in `tbl` of `z` variable
+#' @param use_bounding_box    \[logical\], length 1, default `TRUE`, \cr
+#' if `FALSE` rotate3 does not use bounding box points to make computations \cr
+#' default behavior is to use bounding box points to make computations
+#' @param keep_bounding       \[logical\], length 1, default `TRUE`, \cr
+#' if `FALSE` does not rbind the bounding box back after computation \cr
+#' default behavior is to use bounding box points to make computations
 #'
-#' @examples
-#' library(dplyr)
-#' library(magrittr)
-#' library(ggplot2)
-#' library(grid)
-#' library(magrittr)
-#' # default call behavior is returns tibble or data.frame without
-#' # modification (identity transformation)
-#' tribble(
-#'   ~x, ~y, ~z,
-#'   0,  0,  0,
-#'   0,  1,  0,
-#'   1,  1,  0,
-#'   1,  0,  0,
-#' ) %>%
-#'   center3()
+#' @return
+#' * [tibble] with values
+#' * `x` centered x coordinate
+#' * `y` centered y coordinate
+#' * `z` centered z coordinate
+#' * `face` is point part of "front", "back", "left", "right", "bottom" or "top" face
+#' * `tb` is point on "top", "middle", "bottom" side of face
+#' * `rl` is point on "right", "middle", "left" side of face
+#' * `bounding_box` if `TRUE`, point is part of bounding box
 #'
-#' # fails if one or more of x,y,z not present
-#' # modification (identity transformation)
-# tribble(
-#   ~x,
-#   0,
-#   0,
-#   1,
-#   1,
-# ) %>%
-#   center3()
-
-#' # centering at 0, 0, 0
-#' tribble(
-#'   ~x, ~y, ~z,
-#'   0,  0,  0,
-#'   0,  1,  0,
-#'   1,  1,  0,
-#'   1,  0,  0,
-#' ) %>%
-#'   center3(0,0,0)
-#'
-# # centering at 1, 0, 1
-# tribble(
-#   ~x, ~y, ~z,
-#   0,  0,  0,
-#   0,  1,  0,
-#   1,  1,  0,
-#   1,  0,  0,
-# ) %>%
-#   center3(1,0,1)
-#'
-#' # centering at 1, 0, 1
-# tribble(
-#  ~x, ~y, ~z,
-#  0,  0,  0,
-#  0,  1,  0,
-#  1,  1,  0,
-#  1,  0,  0,
-# ) %>%
-#  center3(xc = 1,zc = 1)
-#'
-# pts_unit_cube() %>%
-#   cuboid_slice(sx = .5, sxend = 1,
-#                sy = .5, syend = 1,
-#                sz = 0 , szend = 1) %>%
-#   center3(xc = 0, yc = 0, zc = 0,
-#           x = sx, y = sy, z = sz,
-#           old_xc = mean(x), old_yc = mean(y), old_zc = mean(z))
-
 #' @export
-#' @import rlang purrr tibble dplyr
-
+#' @importFrom magrittr %>%
+#END: description
+#BEGIN: code
 
 center3 = function(
   tbl,
-  xc = NULL,yc = NULL,zc = NULL,
-  old_xc = NULL, old_yc = NULL, old_zc = NULL,
-  x = x, y = y, z = z
+  at_x_ = NULL, at_y_ = NULL, at_z_ = NULL,
+  x_ = x, y_ = y, z_ = z,
+  use_bounding_box = TRUE,
+  keep_bounding = TRUE
 ) {
 
-  x = rlang::enexpr(x)
-  y = rlang::enexpr(y)
-  z = rlang::enexpr(z)
+  #BEGIN: setup params
+  if (!('bounding_box' %in% names(tbl)) && use_bounding_box)
+    rlang::abort(message = "if use_bounding_box=TRUE, then 'bounding_box' must be in 'tbl'")
 
-  xc = rlang::enexpr(xc)
-  yc = rlang::enexpr(yc)
-  zc = rlang::enexpr(zc)
+  if (use_bounding_box == FALSE)
+    keep_bounding = FALSE
 
-  old_xc = rlang::enexpr(xc)
-  old_yc = rlang::enexpr(yc)
-  old_zc = rlang::enexpr(zc)
+  if (use_bounding_box || !keep_bounding) {
+    tbl %>% dplyr::filter(bounding_box) -> tbl_bounding_box
+    tbl %>% dplyr::filter(!bounding_box) -> tbl
+  }
 
-  # -------- checks
-  # TODO
+  at_x_ = rlang::enexpr(at_x_)
+  at_y_ = rlang::enexpr(at_y_)
+  at_z_ = rlang::enexpr(at_z_)
 
-    # check tbl
-  if (!any(class(tbl) %in% c(class(tibble()),class(data.frame()))))
-    stop(paste0('param tbl must be one of ',paste(class(tibble()), collapse = ', '),sep = ''))
+  x_ = rlang::enexpr(x_)
+  y_ = rlang::enexpr(y_)
+  z_ = rlang::enexpr(z_)
+  #END: setup params
 
-  # check all variables in tbl
-  names = purrr::map_chr(c(x,y,z),rlang::as_name)
-  if (!all(names %in% names(tbl)))
-    stop(paste0('tbl must contain columns ',paste(names,collapse = ', ')))
-
-  # check if all classes are numeric
-  # check is performed by dplyr::mutate
-
+  #BEGIN: param checks
   # identity case
-  if (all(length(xc) == 0,length(yc) == 0,length(zc) == 0))
-    if (all(is.null(xc),is.null(yc),is.null(zc)))
-      return(tbl)
+  if (is.null(at_x_) && is.null(at_y_) && is.null(at_z_)) {
+    if (keep_bounding) { return(dplyr::bind_rows(tbl,tbl_bounding_box)) }
+    else { return(dplyr::bind_rows(tbl)) }
+  }
 
-  # # check parameter lengths
-  # # cannot be check since expression length is always 1
+  # set null center parameters to means
+  if (is.null(at_x_)) at_x_ = rlang::expr(mean(!!x_))
+  if (is.null(at_y_)) at_y_ = rlang::expr(mean(!!y_))
+  if (is.null(at_z_)) at_z_ = rlang::expr(mean(!!z_))
 
-  # # check parameter types
-  # # cannot be check since we don't know the expression values until it is evaluated
+  # membership
+  char = as.character(c(x_,y_,z_))
+  if (!all(char %in% names(tbl)))
+    rlang::abort(message = "params x_, y_, z_ must relate to names in tbl")
+  #END: param checks
 
-  # -------- BEGIN: setup parameters
-  if (is.null(xc)) xc = rlang::expr(mean(!!x))
+  # browser()
+  #BEGIN: computation
+  if (use_bounding_box) {
+    # centers are based on bounding box
+    tbl_bounding_box %>%
+      dplyr::mutate(
+        xc = mean(!!x_),
+        yc = mean(!!y_),
+        zc = mean(!!z_),
+        at_x = !!at_x_,
+        at_y = !!at_y_,
+        at_z = !!at_z_,
+      ) -> tbl_bounding_box
 
-  if (is.null(yc)) yc = rlang::expr(mean(!!y))
+    tbl_bounding_box %>%
+      dplyr::slice(1) %>%
+      dplyr::select(xc,yc,zc,at_x,at_y,at_z) %>%
+      dplyr::bind_cols(tbl,.) ->
+      tbl
+  } else {
+    # centers are based on shape
+    tbl %>%
+      dplyr::mutate(
+        xc = mean(!!x_),
+        yc = mean(!!y_),
+        zc = mean(!!z_),
+        at_x = !!at_x_,
+        at_y = !!at_y_,
+        at_z = !!at_z_,
+      ) -> tbl
+  }
 
-  if (is.null(zc)) zx = rlang::expr(mean(!!z))
-
-  if (is.null(old_xc)) old_xc = rlang::expr(mean(!!x))
-
-  if (is.null(old_yc)) old_yc = rlang::expr(mean(!!y))
-
-  if (is.null(old_zc)) old_zc = rlang::expr(mean(!!z))
-
-  xshift = rlang::expr(- !!old_xc + !!xc)
-  yshift = rlang::expr(- !!old_yc + !!yc)
-  zshift = rlang::expr(- !!old_zc + !!zc)
-  # -------- BEGIN: end parameters
-
-  # -------- logic
-  # print(names(tbl))
   tbl %>%
     dplyr::mutate(
-      !!x := !!x + !!xshift,
-      !!y := !!y + !!yshift,
-      !!z := !!z + !!zshift
-    )
+      !!x_ := !!x_ - xc + at_x,
+      !!y_ := !!y_ - yc + at_y,
+      !!z_ := !!z_ - zc + at_z,
+    ) %>%
+    dplyr::select(-xc,-yc,-zc,-at_x,-at_y,-at_z) -> tbl_return
+
+  if (keep_bounding) {
+    tbl_bounding_box %>%
+      dplyr::mutate(
+        !!x_ := !!x_ - xc + at_x,
+        !!y_ := !!y_ - yc + at_y,
+        !!z_ := !!z_ - zc + at_z,
+      ) %>%
+      dplyr::select(-xc,-yc,-zc,-at_x,-at_y,-at_z) -> tbl_bounding_box_return
+  }
+
+  dplyr::bind_rows(
+    tbl_return,
+    if (keep_bounding) { tbl_bounding_box_return }
+  )
+  #END: computation
 }
+
+#END: code
+#BEGIN: examples
+#' @examples
+#' #BEGIN: example
+#' # default case, the shape remains centered at its original location
+#' pts_unit_cube() %>%
+#'   center3() %>%
+#'   all.equal(pts_unit_cube(),.)
+#' #END: example
+#'
+#' #BEGIN: example
+#' # passing values
+#' pts_unit_cube() %>%
+#'   center3(1,0,0) %>%
+#'   all.equal(
+#'     target = pts_unit_cube() %>% dplyr::mutate(x = x + 0.5, y = y - 0.5, z = z - 0.5),
+#'     .)
+#' #END: example
+#'
+#' #BEGIN: example
+#' # passing variables
+#' at_x_ = 1; at_y_ = 0; at_z_ = 0;
+#' pts_unit_cube() %>%
+#'   center3(!!at_x_,!!at_y_,!!at_z_) %>%
+#'   all.equal(
+#'     target = pts_unit_cube() %>% dplyr::mutate(x = x + 0.5, y = y - 0.5, z = z - 0.5),
+#'     .)
+#' #END: example
+#'
+#' #BEGIN: example
+#' # default case, the shape remains centered at its original location
+#' library(ggplot2)
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(c(-2,2)) +
+#'   ylim(c(-2,2)) +
+#'   geom_polygon(
+#'     data = pts_unit_cube() %>%
+#'       center3(keep_bounding = FALSE),
+#'     mapping = aes(x = x, y = y, group = face, fill = face),
+#'     colour = 'black'
+#'   )
+#' #END: example
+#'
+#' #BEGIN: example
+#' # a new center at (x=-1.5,y=1)
+#' library(ggplot2)
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(c(-2,2)) +
+#'   ylim(c(-2,2)) +
+#'   geom_polygon(
+#'     data = pts_unit_cube() %>%
+#'       center3(at_x_ = -1.5,at_y_ = 1),
+#'     mapping = aes(x = x, y = y, group = face, fill = face),
+#'     colour = 'black'
+#'   ) +
+#'   geom_point(
+#'     data = tibble(),
+#'     mapping = aes(x = -1.5, y = 1)
+#'   )
+#' #END: example
+#'
+#' #BEGIN: example
+#' # a new center at (x=-1.5,y=1)
+#' library(ggplot2)
+#' foox = -1.5
+#' fooy = 1
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(c(-2,2)) +
+#'   ylim(c(-2,2)) +
+#'   geom_polygon(
+#'     data = pts_unit_cube() %>%
+#'     center3(at_x_ = !!foox,at_y_ = !!fooy),
+#'     mapping = aes(x = x, y = y, group = face, fill = face),
+#'     colour = 'black'
+#'   ) +
+#'   geom_point(
+#'     data = tibble(),
+#'     mapping = aes(x = -1.5, y = 1)
+#'   )
+#' #END: example
+#'
+#' #BEGIN: example
+#' # rotation at a point can be done using center3(0,0,0) %>% rotate3 %>% center3
+#' ggplot() +
+#'   coord_equal() +
+#'   xlim(c(-2,2)) +
+#'   ylim(c(-2,2)) +
+#'   geom_polygon(
+#'     data = pts_unit_cube() %>%
+#'       center3(0,0,0) %>%
+#'       rotate3(70,20) %>%
+#'       center3(at_x_ = -1.5,at_y_ = 1,keep_bounding = FALSE),
+#'     mapping = aes(x = x, y = y, group = face, fill = face),
+#'     colour = 'black'
+#'   ) +
+#'   geom_point(
+#'     data = tibble(),
+#'     mapping = aes(x = -1, y = 1)
+#'   )
+#' #END: example
+#END: examples

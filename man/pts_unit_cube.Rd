@@ -2,27 +2,26 @@
 % Please edit documentation in R/pts_unit_cube.R
 \name{pts_unit_cube}
 \alias{pts_unit_cube}
-\title{{title placeholder}}
+\title{Annotated Points of a Unit Cube}
 \usage{
-{usage placeholder}
+pts_unit_cube(faces = c("front", "top", "right"))
 }
 \arguments{
-\item{{param}}{[{type}], {restrictions}}
+\item{faces}{[character], with one or more of "front","top","right","back","bottom","left",}
 }
 \value{
-\preformatted{      [\{type\}]
+\link{tibble} with columns
+\itemize{
+\item \code{x} x coordinate of point
+\item \code{y} y coordinate of point
+\item \code{z} z coordinate of point
+\item \code{face} is face front, back, top, bottom, left or right
+\item \code{tb} is the point on top, bottom or middle of face
+\item \code{rl} is the point on left, right or middle of face
+\item \code{point_order} points draw order
+\item \code{face_order}  face draw order for default faces
 }
 }
 \description{
-{description placeholder}
-}
-\examples{
-library(dplyr)
-library(magrittr)
-library(ggplot2)
-library(grid)
-library(magrittr)
-# identity case
-
-
+Annotated Points of a Unit Cube
 }

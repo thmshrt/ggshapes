@@ -1,4 +1,6 @@
 ^ggshapes\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+^helpers/
 ^LICENSE\.md$
+^examples/

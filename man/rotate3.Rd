@@ -2,24 +2,58 @@
 % Please edit documentation in R/rotate3.R
 \name{rotate3}
 \alias{rotate3}
-\title{rotates x,y,z coords by specified degrees}
+\title{Rotate pts in 3D}
 \usage{
-rotate3(tbl, degx = 0, degy = 0, degz = 0, x = x, y = y, z = z)
+rotate3(
+  tbl,
+  degx_ = NULL, degy_ = NULL, degz_ = NULL,
+  x_ = x, y_ = y, z_ = z,
+  xc_ = mean(x), yc_ = mean(y), zc_ = mean(z),
+  use_bounding_box = TRUE,
+  keep_bounding = TRUE
+)
 }
 \arguments{
-\item{degx}{[numeric], length 1, degrees to rotate \code{x} by}
+\item{tbl}{[tibble], a tibble containing points to be rotated}
 
-\item{degy}{[numeric], length 1, degrees to rotate \code{y} by}
+\item{degx_}{[numeric], length 1, degrees anticlockwise about x axis to rotate shape}
 
-\item{degz}{[numeric], length 1, degrees to rotate \code{x} by}
+\item{degy_}{[numeric], length 1, degrees anticlockwise about y axis to rotate shape}
 
-\item{table}{[data.frame or tibble], contains named columns \code{x}, \code{y}, \code{z}}
+\item{degz_}{[numeric], length 1, degrees anticlockwise about z axis to rotate shape}
+
+\item{x_}{[expr], variable name in \code{tbl} of \code{x} variable}
+
+\item{y_}{[expr], variable name in \code{tbl} of \code{y} variable}
+
+\item{z_}{[expr], variable name in \code{tbl} of \code{z} variable}
+
+\item{xc_}{[expr], expression describing \code{xc_} in terms of variables in \code{tbl}}
+
+\item{yc_}{[expr], expression describing \code{yc_} in terms of variables in \code{tbl}}
+
+\item{zc_}{[expr], expression describing \code{zc_} in terms of variables in \code{tbl}}
+
+\item{use_bounding_box}{[logical], length 1, default \code{TRUE}, \cr
+if \code{FALSE} rotate3 does not use bounding box points to make computations \cr
+default behavior is to use bounding box points to make computations}
+
+\item{keep_bounding}{[logical], length 1, default \code{TRUE}, \cr
+if \code{FALSE} does not rbind the bounding box back after computation \cr
+default behavior is to use bounding box points to make computations}
 }
 \value{
-\preformatted{      [tibble], with `x`, `y`, `z` rotated by `degx`, `degy`, `degz`
+\itemize{
+\item \link{tibble} with values
+\item \code{x} rotated x coordinate
+\item \code{y} rotated y coordinate
+\item \code{z} rotated z coordinate
+\item \code{face} is point part of "front", "back", "left", "right", "bottom" or "top" face
+\item \code{tb} is point on "top", "middle", "bottom" side of face
+\item \code{rl} is point on "right", "middle", "left" side of face
+\item \code{bounding_box} if \code{TRUE}, point is part of bounding box
 }
 }
 \description{
-Rotates \code{x}, \code{y}, \code{z} coordinates by degrees \code{degx}, \code{degy}, \code{degz} about the
-origin (x = 0,y = 0,z = 0).
+Rotate pts in 3D
 }

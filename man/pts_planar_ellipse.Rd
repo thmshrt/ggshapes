@@ -2,57 +2,52 @@
 % Please edit documentation in R/pts_planar_ellipse.R
 \name{pts_planar_ellipse}
 \alias{pts_planar_ellipse}
-\title{{title placeholder}}
+\title{Pts for a planar ellipse}
 \usage{
-{usage placeholder}
+pts_planar_ellipse(
+  c1 = 0,
+  c2 = 0,
+  p = 0,
+  c1_var = x,
+  c2_var = y,
+  p_var = z,
+  a = 1,
+  b = 1,
+  n = 50
+)
 }
 \arguments{
-\item{{param}}{[{type}], {restrictions}}
+\item{c1}{[numeric], center on axis 1}
+
+\item{c2}{[numeric], center on axis 2}
+
+\item{p}{[numeric], value for planar axis}
+
+\item{c1_var}{[symbol], name of axis 1}
+
+\item{c2_var}{[symbol], name of axis 2}
+
+\item{p_var}{[symbol], name of axis p}
+
+\item{a}{[symbol], expansion in axis 1}
+
+\item{b}{[symbol], expansion in axis 2}
+
+\item{n}{[symbol], number of points to approximate}
 }
 \value{
-\preformatted{      [\{type\}]
+\link{tibble} with columns
+\itemize{
+\item \code{x} x coordinate of point
+\item \code{y} y coordinate of point
+\item \code{z} z coordinate of point
+\item \code{face} is face front, back, top, bottom, left or right
+\item \code{tb} is the point on top, bottom or middle of face
+\item \code{rl} is the point on left, right or middle of face
+\item \code{point_order} points draw order
+\item \code{face_order}  face draw order for default faces
 }
 }
 \description{
-{description placeholder}
-}
-\examples{
-library(dplyr)
-library(magrittr)
-library(ggplot2)
-library(grid)
-library(magrittr)
-# identity case
-
-
-ggplot() +
-  coord_equal() +
-  scale_x_continuous(limits = c(-2,2)) +
-  scale_y_continuous(limits = c(-2,2)) +
-  geom_point(
-    data = pts_planar_ellipse(n=32),
-    mapping = aes(x = x, y = y)
-  ) +
-  geom_polygon(
-    data = pts_planar_ellipse(n = 32),
-    mapping = aes(x = x, y = y),
-    fill = 'NA',
-    colour = 'black'
-  )
-ggplot() +
-  coord_equal() +
-  scale_x_continuous(limits = c(-2,2)) +
-  scale_y_continuous(limits = c(-2,2)) +
-  geom_polygon(
-    data = pts_planar_ellipse(a = 1, b = 2, n=32),
-    mapping = aes(x = x, y = y),
-    fill = NA,
-    colour = 'skyblue3'
-  ) +
-  geom_polygon(
-    data = pts_planar_ellipse(a = 2, b = 1, n=32),
-    mapping = aes(x = x, y = y),
-    fill = NA,
-    colour = 'orange2'
-  )
+Pts for a planar ellipse
 }

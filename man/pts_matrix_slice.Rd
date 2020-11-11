@@ -2,15 +2,45 @@
 % Please edit documentation in R/pts_matrix_slice.R
 \name{pts_matrix_slice}
 \alias{pts_matrix_slice}
-\title{{title placeholder}}
+\title{Matrix slice points}
 \usage{
-{usage placeholder}
+pts_matrix_slice(
+  nx_ = 1, ny_ = 1, nz_ = 1,
+  ix_ = 1, ixend_ = 1,
+  iy_ = 1, iyend_ = 1,
+  iz_ = 1, izend_ = 1
+)
 }
 \arguments{
-\item{{param}}{[{type}], {restrictions}}
+\item{nx_}{[integer], length 1, positive, x dimension of matrix}
+
+\item{ny_}{[integer], length 1, positive, y dimension of matrix}
+
+\item{nz_}{[integer], length 1, positive, z dimension of matrix}
+
+\item{ix_}{[integer], length 1, >= 1 & <= ixend_, 1 indexed start of x slice}
+
+\item{ixend_}{[integer], length 1, >= ix_ & <= nx_, 1 indexed end of x slice (inclusive)}
+
+\item{iy_}{[integer], length 1, >= 1 & <= iyend_, 1 indexed start of y slice}
+
+\item{iyend_}{[integer], length 1, >= iy_ & <= ny_, 1 indexed end of y slice (inclusive)}
+
+\item{iz_}{[integer], length 1, >= 1 & <= izend_, 1 indexed start of z slice}
+
+\item{izend_}{[integer], length 1, >= iz_ & <= nz_, 1 indexed end of z slice (inclusive)}
 }
 \value{
-\preformatted{      [\{type\}]
+\link{tibble} with columns
+\itemize{
+\item \code{x} x coordinate of scalar
+\item \code{y} y coordinate of scalar
+\item \code{z} z coordinate of scalar
+\item \code{face} is face front, back, top, bottom, left or right
+\item \code{tb} is the scalar on top, bottom or middle of face
+\item \code{rl} is the scalar on left, right or middle of face
+\item \code{point_order} points draw order
+\item \code{face_order}  face draw order for default faces
 }
 }
 \description{

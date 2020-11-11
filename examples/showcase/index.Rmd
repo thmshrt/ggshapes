@@ -10,7 +10,8 @@ bibliography: [references.bib]
 knitr::opts_chunk$set(
   echo = TRUE,
   warning = FALSE,
-  message = FALSE
+  message = FALSE,
+  eval = FALSE
   )
 ```
 
@@ -18,12 +19,12 @@ knitr::opts_chunk$set(
 
 ## Motivation {-}
 
-As scientific ideas become more complex, it is essential that we build 
-reproducible methods of communicating these ideas. The grammar of Hadley 
-Wickham's `ggplot2` has made this happen for plots. However, the plot is just 
-one of many components of a scientific visualization. What the scientific community needs is 
-a grammar of figures. `ggshapes` is the beginning of a project aimed at doing
-just that.
+As scientific ideas become more complex, it is essential that we build
+reproducible methods of communicating these ideas. The grammar of Hadley
+Wickham's `ggplot2` has made this happen for plots. However, the plot is just
+one of many components of a scientific visualization. What the scientific community
+needs is a grammar of figures. `ggshapes` is the beginning of a project aimed 
+at doing just that.
 
 ## Purpose {-}
 
@@ -50,4 +51,3 @@ devtools::install_github('thmshrt/ggshapes')
 `ggshapes` is currently in alpha mode and therefore is undergoing rapid changes
 to achieve a uniform syntax and stability. The goal for `ggshapes` version
 `0.0.1` is January 1, 2021.
-

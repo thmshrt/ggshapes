@@ -2,43 +2,51 @@
 % Please edit documentation in R/scale3.R
 \name{scale3}
 \alias{scale3}
-\title{scales x,y,z coords by a specified amount}
+\title{Scale pts in 3D}
 \usage{
-scale3(tbl, sx = 1, sy = 1, sz = 1, x = x, y = y, z = z, respect = FALSE)
+scale3(
+  tbl,
+  sx_ = 1, sy_ = 1, sz_ = 1,
+  x_ = x, y_ = y, z_ = z,
+  use_bounding_box = TRUE,
+  keep_bounding = TRUE
+)
 }
 \arguments{
-\item{sx}{[numeric], length 1, nonnegative, amount to scale \code{x} by}
+\item{tbl}{[tibble], a tibble containing points to be scaled}
 
-\item{sy}{[numeric], length 1, nonnegative, amount to scale \code{y} by}
+\item{sx_}{[numeric], length 1, default 1, value by which to scale \code{x} variable in \code{tbl},}
 
-\item{sz}{[numeric], length 1, nonngeative amount to scale \code{z} by}
+\item{sy_}{[numeric], length 1, default 1, value by which to scale \code{y} variable in \code{tbl}}
 
-\item{respect}{[logical], length 1, if true, scaling respect original aspect ratio}
+\item{sz_}{[numeric], length 1, default 1, value by which to scale \code{z} variable in \code{tbl}}
 
-\item{table}{[data.frame or tibble], contains named columns \code{x}, \code{y}, \code{z}}
+\item{x_}{[expr], variable name in \code{tbl} of \code{x} variable}
+
+\item{y_}{[expr], variable name in \code{tbl} of \code{y} variable}
+
+\item{z_}{[expr], variable name in \code{tbl} of \code{z} variable}
+
+\item{use_bounding_box}{[logical], length 1, default \code{TRUE}, \cr
+if \code{FALSE} rotate3 does not use bounding box points to make computations \cr
+default behavior is to use bounding box points to make computations}
+
+\item{keep_bounding}{[logical], length 1, default \code{TRUE}, \cr
+if \code{FALSE} does not rbind the bounding box back after computation \cr
+default behavior is to use bounding box points to make computations}
 }
 \value{
-\preformatted{      [tibble], with `x`, `y`, `z` scale by `sx`, `sy`, `sz`
+\itemize{
+\item \link{tibble} with values
+\item \code{x} scaled x coordinate
+\item \code{y} scaled y coordinate
+\item \code{z} scaled z coordinate
+\item \code{face} is point part of "front", "back", "left", "right", "bottom" or "top" face
+\item \code{tb} is point on "top", "middle", "bottom" side of face
+\item \code{rl} is point on "right", "middle", "left" side of face
+\item \code{bounding_box} if \code{TRUE}, point is part of bounding box
 }
 }
 \description{
-Scales \code{x}, \code{y}, \code{z} coordinates by amounts \code{sx}, \code{sy}, \code{sz} respectively.
-Using column \code{x} as an example, the new coordinates are computed using \cr
-\cr
-\deqn{x_{i} = x_{i} * sx}
-\cr
-where \cr
-\itemize{
-\item \eqn{x}         is \verb{m x 1} column
-\item \eqn{x_{i}}     is \code{i}th element in column
-\item \eqn{sx}        is \verb{1 x 1} scalar
-}
-}
-\examples{
-library(dplyr)
-library(magrittr)
-library(ggplot2)
-library(grid)
-library(magrittr)
-#TODO
+Scale pts in 3D
 }
