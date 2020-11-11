@@ -13,47 +13,39 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ggshapes
+# About {-}
 
-<!-- badges: start -->
-<!-- badges: end -->
+## Motivation {-}
 
-The goal of ggshapes is to ...
+As scientific ideas become more complex, it is essential that we build
+reproducible methods of communicating these ideas. The grammar of Hadley
+Wickham's `ggplot2` has made this happen for plots. However, the plot is just
+one of many components of a scientific visualization. What the scientific community
+needs is a grammar of figures. `ggshapes` is the beginning of a project aimed 
+at doing just that.
 
-## Installation
+## Purpose {-}
 
-You can install the released version of ggshapes from [CRAN](https://CRAN.R-project.org) with:
+This book is meant as a showcase of the functionality of `ggshapes`. It is not
+a white paper for its parent project on developing a grammar of figures.
 
-``` r
-install.packages("ggshapes")
+## Installation {-}
+
+`ggshapes` will be available in CRAN as soon as it becomes stable
+
+```r
+install.packages('ggshapes')
 ```
 
-## Example
+For now `ggshapes` can be installed from github using
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(ggshapes)
-## basic example code
+```r
+library(devtools)
+devtools::install_github('thmshrt/ggshapes')
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+## Caveat {-}
 
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
-
-## TODO
-
-- [ ] `pts_matrix_slice`
-- [ ] `pts_matrix_indices`
+`ggshapes` is currently in alpha mode and therefore is undergoing rapid changes
+to achieve a uniform syntax and stability. The goal for `ggshapes` version
+`0.0.1` is January 1, 2021.
