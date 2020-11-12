@@ -3,4 +3,5 @@
 ^README\.Rmd$
 ^helpers/
 ^LICENSE\.md$
+^docs/
 ^examples/
