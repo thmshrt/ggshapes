@@ -40,6 +40,8 @@
 #' * `face_order`  face draw order for default faces
 #'
 #' @export
+#' @importFrom rlang abort
+#' @importFrom tibble tibble
 #' @importFrom magrittr %>%
 #END: description
 #BEGIN: code
@@ -89,7 +91,7 @@ pts_planar_points = function(
   ##BEGIN: computation
   pts_unit_bounding_box() %>%
     dplyr::filter(face == 'top') %>%
-    scale3(sx_ = l1_, sy_ = l2_, sz_ = 0) %>%
+    scale3(sx_ = !!l1_, sy_ = !!l2_, sz_ = 0) %>%
     center3(!!c1_, !!c2_, !!p_) %>%
     dplyr::bind_rows(
       tibble(pts1_,pts2_,p_,bounding_box = FALSE) %>%
