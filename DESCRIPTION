@@ -1,6 +1,6 @@
 Package: ggshapes
 Title: Add 3D-Lite shapes to ggplots
-Version: 0.0.0.9004
+Version: 0.0.0.9005
 Authors@R: 
     person(given = "Thomas",
            family = "Hart",
